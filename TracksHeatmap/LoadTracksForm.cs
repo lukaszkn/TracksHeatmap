@@ -120,6 +120,9 @@ namespace TracksHeatmap
 
             foreach (string path in this.filenames)
             {
+                if (chkFilenameMustContain.Checked && !(new FileInfo(path).Name.Contains(txtMustContain.Text)))
+                    continue;
+
                 List<Geo.Gps.Track> tracks = null;
 
                 var gpx10 = new Gpx10Serializer();

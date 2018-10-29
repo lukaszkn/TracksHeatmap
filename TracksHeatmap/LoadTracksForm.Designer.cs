@@ -43,6 +43,8 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblProgressPercent = new System.Windows.Forms.ToolStripStatusLabel();
             this.progressBar1 = new System.Windows.Forms.ToolStripProgressBar();
+            this.chkFilenameMustContain = new System.Windows.Forms.CheckBox();
+            this.txtMustContain = new System.Windows.Forms.TextBox();
             this.groupBoxOptions.SuspendLayout();
             this.groupBoxSelectFolderFiles.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -70,6 +72,8 @@
             // 
             // groupBoxOptions
             // 
+            this.groupBoxOptions.Controls.Add(this.txtMustContain);
+            this.groupBoxOptions.Controls.Add(this.chkFilenameMustContain);
             this.groupBoxOptions.Controls.Add(this.chkLoadForVisibleMap);
             this.groupBoxOptions.Controls.Add(this.dtTo);
             this.groupBoxOptions.Controls.Add(this.label1);
@@ -77,7 +81,7 @@
             this.groupBoxOptions.Controls.Add(this.chkDatesBetween);
             this.groupBoxOptions.Location = new System.Drawing.Point(12, 101);
             this.groupBoxOptions.Name = "groupBoxOptions";
-            this.groupBoxOptions.Size = new System.Drawing.Size(489, 74);
+            this.groupBoxOptions.Size = new System.Drawing.Size(489, 105);
             this.groupBoxOptions.TabIndex = 2;
             this.groupBoxOptions.TabStop = false;
             this.groupBoxOptions.Text = "Options";
@@ -149,7 +153,7 @@
             // 
             // btnLoad
             // 
-            this.btnLoad.Location = new System.Drawing.Point(343, 190);
+            this.btnLoad.Location = new System.Drawing.Point(345, 224);
             this.btnLoad.Name = "btnLoad";
             this.btnLoad.Size = new System.Drawing.Size(75, 23);
             this.btnLoad.TabIndex = 4;
@@ -160,7 +164,7 @@
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(424, 190);
+            this.btnCancel.Location = new System.Drawing.Point(426, 224);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 5;
@@ -172,7 +176,7 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblProgressPercent,
             this.progressBar1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 234);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 279);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(513, 22);
             this.statusStrip1.TabIndex = 6;
@@ -192,11 +196,29 @@
             this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.progressBar1.Value = 20;
             // 
+            // chkFilenameMustContain
+            // 
+            this.chkFilenameMustContain.AutoSize = true;
+            this.chkFilenameMustContain.Location = new System.Drawing.Point(6, 71);
+            this.chkFilenameMustContain.Name = "chkFilenameMustContain";
+            this.chkFilenameMustContain.Size = new System.Drawing.Size(134, 17);
+            this.chkFilenameMustContain.TabIndex = 5;
+            this.chkFilenameMustContain.Text = "Filename must contain:";
+            this.chkFilenameMustContain.UseVisualStyleBackColor = true;
+            // 
+            // txtMustContain
+            // 
+            this.txtMustContain.Location = new System.Drawing.Point(146, 69);
+            this.txtMustContain.Name = "txtMustContain";
+            this.txtMustContain.Size = new System.Drawing.Size(100, 20);
+            this.txtMustContain.TabIndex = 6;
+            this.txtMustContain.Text = "walk";
+            // 
             // LoadTracksForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(513, 256);
+            this.ClientSize = new System.Drawing.Size(513, 301);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnLoad);
@@ -235,5 +257,7 @@
         private System.Windows.Forms.ToolStripProgressBar progressBar1;
         private System.Windows.Forms.Label lblFolderOrFiles;
         private System.Windows.Forms.ToolStripStatusLabel lblProgressPercent;
+        private System.Windows.Forms.CheckBox chkFilenameMustContain;
+        private System.Windows.Forms.TextBox txtMustContain;
     }
 }

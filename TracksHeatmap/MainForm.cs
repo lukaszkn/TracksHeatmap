@@ -63,6 +63,7 @@ namespace TracksHeatmap
         {
             chkKeepAspectRatio.Checked = true;
             chkAsVisible.Checked = true;
+            menuTrackName.Visible = false;
 
             gMap.DragButton = MouseButtons.Left;
             gMap.Position = new PointLatLng(50.059721, 22.4930113);
@@ -237,6 +238,11 @@ namespace TracksHeatmap
 
                 contextMenuStrip1.Show(gMap, e.Location);
             }
+            else
+            {
+                menuTrackName.Visible = false;
+                lblSelectedRoute.Text = String.Empty;
+            }
         }
 
         private void menuGPSposition_Click(object sender, EventArgs e)
@@ -270,6 +276,7 @@ namespace TracksHeatmap
         {
             lblSelectedRoute.Text = item.Tag.ToString();
             menuTrackName.Text = item.Tag.ToString();
+            menuTrackName.Visible = true;
         }
     }
 }
