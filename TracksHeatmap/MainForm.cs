@@ -247,7 +247,7 @@ namespace TracksHeatmap
 
         private void menuGPSposition_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(menuGPSposition.Text);
+            Clipboard.SetText(((ToolStripMenuItem)sender).Text);
         }
 
         private void btnTrackBakground_Click(object sender, EventArgs e)

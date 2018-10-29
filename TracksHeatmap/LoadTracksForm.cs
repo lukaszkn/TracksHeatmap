@@ -20,6 +20,8 @@ namespace TracksHeatmap
         private string[] filenames;
         private DateTime minTrackDate = DateTime.MaxValue;
         private DateTime maxTrackDate = DateTime.MinValue;
+        private double avgSpeedSum = 0;
+        private int avgSpeedCount = 0;
 
         public List<Geo.Gps.Track> Tracks = new List<Geo.Gps.Track>();
         public double TotalDistance;
@@ -144,6 +146,14 @@ namespace TracksHeatmap
 
                 foreach (var track in tracks)
                 {
+                    if (chkAvgSpeedBetween.Checked)
+                    {
+                        Geo.Measure.Speed speed = track.GetAverageSpeed().ConvertTo(Geo.Measure.SpeedUnit.Kph);
+                        if (speed.Value < Convert.ToDouble(numSpeedFrom.Value) || speed.Value > Convert.ToDouble(numSpeedTo.Value))
+                            continue;
+                    }
+
+
                     bool isAnyPointOnMap = false;
 
                     if (chkLoadForVisibleMap.Checked)
@@ -194,6 +204,11 @@ namespace TracksHeatmap
 
                         this.TotalDistance += track.GetLength().Value;
                         this.TotalTime += track.GetDuration();
+
+                        Geo.Measure.Speed speed = track.GetAverageSpeed();
+                        this.avgSpeedSum += speed.SiValue;
+                        this.avgSpeedCount++;
+
                         track.Metadata.Add("filename", new FileInfo(path).Name);
                         this.Tracks.Add(track);
                     }
@@ -219,6 +234,9 @@ namespace TracksHeatmap
             if (TotalTime.Hours > 0) text.Append(TotalTime.Hours + "h ");
             if (TotalTime.Minutes > 0) text.Append(TotalTime.Minutes + "m ");
             text.AppendLine();
+
+            Geo.Measure.Speed speed = new Geo.Measure.Speed(this.avgSpeedSum / this.avgSpeedCount);
+            text.AppendLine("Avg. speed: " + speed.ConvertTo(Geo.Measure.SpeedUnit.Kph).Value.ToString("F2") + "km/h");
 
             return text.ToString();
         }

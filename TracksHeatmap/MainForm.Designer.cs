@@ -131,7 +131,7 @@
             this.toolStripMenuItem1,
             this.menuSaveAsImage});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(149, 76);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 98);
             // 
             // menuGPSposition
             // 
@@ -592,8 +592,9 @@
             // menuTrackName
             // 
             this.menuTrackName.Name = "menuTrackName";
-            this.menuTrackName.Size = new System.Drawing.Size(148, 22);
+            this.menuTrackName.Size = new System.Drawing.Size(180, 22);
             this.menuTrackName.Text = "Track name";
+            this.menuTrackName.Click += new System.EventHandler(this.menuGPSposition_Click);
             // 
             // lblSelectedRoute
             // 
