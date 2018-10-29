@@ -106,6 +106,9 @@ namespace TracksHeatmap
                 this.Tracks = loadTracksForm.Tracks;
                 txtInfo.Text = loadTracksForm.GetInfo();
                 LoadTracksToMap();
+
+                // center tracks after loading
+                btnCenterTracks_Click(sender, e);
             }
         }
 

@@ -153,7 +153,6 @@ namespace TracksHeatmap
                             continue;
                     }
 
-
                     bool isAnyPointOnMap = false;
 
                     if (chkLoadForVisibleMap.Checked)

@@ -83,6 +83,13 @@ namespace TracksHeatmap
                         oldCount++;
                     }
 
+                    // always add last point, single gpx file may be divided by tracks
+                    if (segment.GetLastFix() != lastPoint)
+                    {
+                        lastPoint = segment.GetLastFix();
+                        mapPoints.Add(new PointLatLng(lastPoint.Coordinate.Latitude, lastPoint.Coordinate.Longitude));
+                    }
+
                     if (mapPoints.Count > 0)
                     {
                         GMapRoute route = new GMapRoute(mapPoints, "track" + tracksPolygonsOverlay.Routes.Count);
