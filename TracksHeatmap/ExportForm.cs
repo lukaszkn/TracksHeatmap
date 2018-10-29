@@ -45,7 +45,7 @@ namespace TracksHeatmap
             TracksOptimiser tracksOptimiser = new TracksOptimiser();
             tracksOptimiser.BackgroundColor = BackgroundColor;
             tracksOptimiser.BackgroundColor2 = BackgroundColor2;
-            tracksOptimiser.ZoomRatio = ratio;
+            tracksOptimiser.ZoomRatio = Math.Round(zoom - gmap.Zoom, 1);
             tracksOptimiser.Run(gMapExport, this.Tracks, trackColor, trackWidth, tracksStyle);
 
             gMapExport.Position = gmap.Position;

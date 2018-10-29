@@ -67,7 +67,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.numTrackWidth = new System.Windows.Forms.NumericUpDown();
             this.btnTrackColor = new System.Windows.Forms.Button();
-            this.tabPageInfo = new System.Windows.Forms.TabPage();
+            this.tabPageStats = new System.Windows.Forms.TabPage();
             this.txtInfo = new System.Windows.Forms.TextBox();
             this.btnTrackBakground2 = new System.Windows.Forms.Button();
             this.menuTrackName = new System.Windows.Forms.ToolStripMenuItem();
@@ -88,7 +88,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numExportWidth)).BeginInit();
             this.tabPagePlotOptions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numTrackWidth)).BeginInit();
-            this.tabPageInfo.SuspendLayout();
+            this.tabPageStats.SuspendLayout();
             this.SuspendLayout();
             // 
             // gMap
@@ -227,7 +227,7 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPagePlotOptions);
-            this.tabControl1.Controls.Add(this.tabPageInfo);
+            this.tabControl1.Controls.Add(this.tabPageStats);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
@@ -523,6 +523,7 @@
             // 
             // numTrackWidth
             // 
+            this.numTrackWidth.DecimalPlaces = 1;
             this.numTrackWidth.Location = new System.Drawing.Point(164, 14);
             this.numTrackWidth.Maximum = new decimal(new int[] {
             10,
@@ -556,16 +557,16 @@
             this.btnTrackColor.UseVisualStyleBackColor = true;
             this.btnTrackColor.Click += new System.EventHandler(this.btnTrackColor_Click);
             // 
-            // tabPageInfo
+            // tabPageStats
             // 
-            this.tabPageInfo.Controls.Add(this.txtInfo);
-            this.tabPageInfo.Location = new System.Drawing.Point(4, 22);
-            this.tabPageInfo.Name = "tabPageInfo";
-            this.tabPageInfo.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageInfo.Size = new System.Drawing.Size(218, 572);
-            this.tabPageInfo.TabIndex = 1;
-            this.tabPageInfo.Text = "Info";
-            this.tabPageInfo.UseVisualStyleBackColor = true;
+            this.tabPageStats.Controls.Add(this.txtInfo);
+            this.tabPageStats.Location = new System.Drawing.Point(4, 22);
+            this.tabPageStats.Name = "tabPageStats";
+            this.tabPageStats.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageStats.Size = new System.Drawing.Size(218, 572);
+            this.tabPageStats.TabIndex = 1;
+            this.tabPageStats.Text = "Stats";
+            this.tabPageStats.UseVisualStyleBackColor = true;
             // 
             // txtInfo
             // 
@@ -593,7 +594,7 @@
             // menuTrackName
             // 
             this.menuTrackName.Name = "menuTrackName";
-            this.menuTrackName.Size = new System.Drawing.Size(180, 22);
+            this.menuTrackName.Size = new System.Drawing.Size(148, 22);
             this.menuTrackName.Text = "Track name";
             this.menuTrackName.Click += new System.EventHandler(this.menuGPSposition_Click);
             // 
@@ -635,8 +636,8 @@
             this.tabPagePlotOptions.ResumeLayout(false);
             this.tabPagePlotOptions.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numTrackWidth)).EndInit();
-            this.tabPageInfo.ResumeLayout(false);
-            this.tabPageInfo.PerformLayout();
+            this.tabPageStats.ResumeLayout(false);
+            this.tabPageStats.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -651,7 +652,7 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPageInfo;
+        private System.Windows.Forms.TabPage tabPageStats;
         private System.Windows.Forms.TextBox txtInfo;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label3;

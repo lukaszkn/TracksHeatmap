@@ -19,7 +19,7 @@ namespace TracksHeatmap
         private TracksStyles tracksStyles;
 
         public string Info;
-        public int ZoomRatio = 1;
+        public double ZoomRatio = 1;
         public Color BackgroundColor;
         public Color BackgroundColor2 = Color.FromArgb(3, 124, 34);
 
@@ -139,7 +139,7 @@ namespace TracksHeatmap
             GMapOverlay tracksPolygons3Overlay = FindOverlay(Constants.TracksPolygons3Id, gMap);
 
             GMapRoute route = new GMapRoute(mapPoints, "track" + tracksPolygonsOverlay.Routes.Count);
-            route.Stroke = new Pen(Color.FromArgb(255, trackColor), trackWidth * this.ZoomRatio);
+            route.Stroke = new Pen(Color.FromArgb(255, trackColor), Convert.ToSingle(trackWidth * this.ZoomRatio));
             route.Tag = tagName;
             route.IsHitTestVisible = true;
             tracksPolygonsOverlay.Routes.Add(route);
@@ -147,7 +147,7 @@ namespace TracksHeatmap
             if (tracksStyles == TracksStyles.With_background || tracksStyles == TracksStyles.With_2_backgrounds)
             {
                 GMapRoute route2 = new GMapRoute(mapPoints, "track2_" + tracksPolygons2Overlay.Routes.Count);
-                route2.Stroke = new Pen(Color.FromArgb(200, BackgroundColor), 4 * trackWidth * this.ZoomRatio);
+                route2.Stroke = new Pen(Color.FromArgb(200, BackgroundColor), Convert.ToSingle(4 * trackWidth * this.ZoomRatio));
                 route2.Tag = tagName;
                 route2.IsHitTestVisible = true;
                 tracksPolygons2Overlay.Routes.Add(route2);
@@ -156,7 +156,7 @@ namespace TracksHeatmap
             if (tracksStyles == TracksStyles.With_2_backgrounds)
             {
                 GMapRoute route3 = new GMapRoute(mapPoints, "track3_" + tracksPolygons2Overlay.Routes.Count);
-                route3.Stroke = new Pen(Color.FromArgb(100, BackgroundColor2), 7 * trackWidth * this.ZoomRatio);
+                route3.Stroke = new Pen(Color.FromArgb(100, BackgroundColor2), Convert.ToSingle(7 * trackWidth * this.ZoomRatio));
                 route3.Tag = tagName;
                 route3.IsHitTestVisible = true;
                 tracksPolygons3Overlay.Routes.Add(route3);
