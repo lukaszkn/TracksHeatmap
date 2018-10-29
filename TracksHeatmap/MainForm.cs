@@ -116,12 +116,9 @@ namespace TracksHeatmap
         {
             if (Tracks == null) return;
 
-            TracksOptimiser tracksOptimiser = new TracksOptimiser();
-            tracksOptimiser.BackgroundColor = btnTrackBakground.BackColor;
-            tracksOptimiser.BackgroundColor2 = btnTrackBakground2.BackColor;
-            tracksOptimiser.Run(this.gMap, this.Tracks, btnTrackColor.ForeColor, (int)numTrackWidth.Value, (TracksStyles)cmbPlotStyle.SelectedIndex);
-
-            lblMapPoints.Text = tracksOptimiser.Info;
+            TracksOptimiser tracksOptimiser = UpdateTracksPlot();
+            if (tracksOptimiser != null)
+                lblMapPoints.Text = tracksOptimiser.Info;
         }
 
         private void gMap_SizeChanged(object sender, EventArgs e)
@@ -168,10 +165,19 @@ namespace TracksHeatmap
 
         private void numTrackWidth_ValueChanged(object sender, EventArgs e)
         {
+            UpdateTracksPlot();
+        }
+
+        private TracksOptimiser UpdateTracksPlot()
+        {
+            if (Tracks == null) return null;
+
             TracksOptimiser tracksOptimiser = new TracksOptimiser();
             tracksOptimiser.BackgroundColor = btnTrackBakground.BackColor;
             tracksOptimiser.BackgroundColor2 = btnTrackBakground2.BackColor;
             tracksOptimiser.Run(this.gMap, this.Tracks, btnTrackColor.ForeColor, (int)numTrackWidth.Value, (TracksStyles)cmbPlotStyle.SelectedIndex);
+
+            return tracksOptimiser;
         }
 
         private void btnExport_Click(object sender, EventArgs e)
@@ -280,6 +286,11 @@ namespace TracksHeatmap
             lblSelectedRoute.Text = item.Tag.ToString();
             menuTrackName.Text = item.Tag.ToString();
             menuTrackName.Visible = true;
+        }
+
+        private void cmbPlotStyle_SelectedValueChanged(object sender, EventArgs e)
+        {
+            UpdateTracksPlot();
         }
     }
 }

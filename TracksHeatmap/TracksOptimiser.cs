@@ -13,6 +13,11 @@ namespace TracksHeatmap
 
     public class TracksOptimiser
     {
+        private GMapControl gMap;
+        private Color trackColor;
+        private int trackWidth;
+        private TracksStyles tracksStyles;
+
         public string Info;
         public int ZoomRatio = 1;
         public Color BackgroundColor;
@@ -21,8 +26,12 @@ namespace TracksHeatmap
         public void Run(GMapControl gMap, List<Geo.Gps.Track> tracks, Color trackColor, int trackWidth, TracksStyles tracksStyles)
         {
             if (tracks == null) return;
+            this.gMap = gMap;
+            this.trackColor = trackColor;
+            this.trackWidth = trackWidth;
+            this.tracksStyles = tracksStyles;
 
-            int minPixels = 12;
+            int minPixels = 10;
             switch (tracksStyles)
             {
                 case TracksStyles.Simple: minPixels = 3; break;
@@ -72,11 +81,9 @@ namespace TracksHeatmap
 
                     foreach (var point in segment.Fixes)
                     {
-                        double distance = GetDistance(lastPoint.Coordinate.Latitude, lastPoint.Coordinate.Longitude, point.Coordinate.Latitude, point.Coordinate.Longitude);
-                        if (distance > minimimDistance)
+                        if (AddPoint(mapPoints, lastPoint, point, minimimDistance, tagName))
                         {
                             lastPoint = point;
-                            mapPoints.Add(new PointLatLng(point.Coordinate.Latitude, point.Coordinate.Longitude));
                             newCount++;
                         }
 
@@ -86,35 +93,13 @@ namespace TracksHeatmap
                     // always add last point, single gpx file may be divided by tracks
                     if (segment.GetLastFix() != lastPoint)
                     {
-                        lastPoint = segment.GetLastFix();
-                        mapPoints.Add(new PointLatLng(lastPoint.Coordinate.Latitude, lastPoint.Coordinate.Longitude));
+                        Geo.Gps.Fix newPoint = segment.GetLastFix();
+                        mapPoints.Add(new PointLatLng(newPoint.Coordinate.Latitude, newPoint.Coordinate.Longitude));
                     }
 
-                    if (mapPoints.Count > 0)
+                    if (mapPoints.Count > 1)
                     {
-                        GMapRoute route = new GMapRoute(mapPoints, "track" + tracksPolygonsOverlay.Routes.Count);
-                        route.Stroke = new Pen(Color.FromArgb(255, trackColor), trackWidth * this.ZoomRatio);
-                        route.Tag = tagName;
-                        route.IsHitTestVisible = true;
-                        tracksPolygonsOverlay.Routes.Add(route);
-
-                        if (tracksStyles == TracksStyles.With_background || tracksStyles == TracksStyles.With_2_backgrounds)
-                        {
-                            GMapRoute route2 = new GMapRoute(mapPoints, "track2_" + tracksPolygons2Overlay.Routes.Count);
-                            route2.Stroke = new Pen(Color.FromArgb(200, BackgroundColor), 4 * trackWidth * this.ZoomRatio);
-                            route2.Tag = tagName;
-                            route2.IsHitTestVisible = true;
-                            tracksPolygons2Overlay.Routes.Add(route2);
-                        }
-
-                        if (tracksStyles == TracksStyles.With_2_backgrounds)
-                        {
-                            GMapRoute route3 = new GMapRoute(mapPoints, "track3_" + tracksPolygons2Overlay.Routes.Count);
-                            route3.Stroke = new Pen(Color.FromArgb(100, BackgroundColor2), 7 * trackWidth * this.ZoomRatio);
-                            route3.Tag = tagName;
-                            route3.IsHitTestVisible = true;
-                            tracksPolygons3Overlay.Routes.Add(route3);
-                        }
+                        AddRoute(mapPoints, tagName);
                     }
 
                 }
@@ -124,6 +109,58 @@ namespace TracksHeatmap
             Info = "Map points: " + newCount + " (" + ratio.ToString("F0") + "%)";
 
             gMap.Refresh();
+        }
+
+        private bool AddPoint(List<PointLatLng> mapPoints, Geo.Gps.Fix lastPoint, Geo.Gps.Fix newPoint, double minimimDistance, string tagName)
+        {
+            double distance = GetDistance(lastPoint.Coordinate.Latitude, lastPoint.Coordinate.Longitude, newPoint.Coordinate.Latitude, newPoint.Coordinate.Longitude);
+            if (distance >= 3 * minimimDistance)
+            {
+                // start new route if point is too far away
+                AddRoute(mapPoints, tagName);
+                mapPoints.Clear();
+                mapPoints.Add(new PointLatLng(newPoint.Coordinate.Latitude, newPoint.Coordinate.Longitude));
+
+                return true;
+            }
+            else if (distance > minimimDistance)
+            {
+                mapPoints.Add(new PointLatLng(newPoint.Coordinate.Latitude, newPoint.Coordinate.Longitude));
+                return true;
+            }
+
+            return false;
+        }
+
+        private void AddRoute(List<PointLatLng> mapPoints, string tagName)
+        {
+            GMapOverlay tracksPolygonsOverlay = FindOverlay(Constants.TracksPolygonsId, gMap);
+            GMapOverlay tracksPolygons2Overlay = FindOverlay(Constants.TracksPolygons2Id, gMap);
+            GMapOverlay tracksPolygons3Overlay = FindOverlay(Constants.TracksPolygons3Id, gMap);
+
+            GMapRoute route = new GMapRoute(mapPoints, "track" + tracksPolygonsOverlay.Routes.Count);
+            route.Stroke = new Pen(Color.FromArgb(255, trackColor), trackWidth * this.ZoomRatio);
+            route.Tag = tagName;
+            route.IsHitTestVisible = true;
+            tracksPolygonsOverlay.Routes.Add(route);
+
+            if (tracksStyles == TracksStyles.With_background || tracksStyles == TracksStyles.With_2_backgrounds)
+            {
+                GMapRoute route2 = new GMapRoute(mapPoints, "track2_" + tracksPolygons2Overlay.Routes.Count);
+                route2.Stroke = new Pen(Color.FromArgb(200, BackgroundColor), 4 * trackWidth * this.ZoomRatio);
+                route2.Tag = tagName;
+                route2.IsHitTestVisible = true;
+                tracksPolygons2Overlay.Routes.Add(route2);
+            }
+
+            if (tracksStyles == TracksStyles.With_2_backgrounds)
+            {
+                GMapRoute route3 = new GMapRoute(mapPoints, "track3_" + tracksPolygons2Overlay.Routes.Count);
+                route3.Stroke = new Pen(Color.FromArgb(100, BackgroundColor2), 7 * trackWidth * this.ZoomRatio);
+                route3.Tag = tagName;
+                route3.IsHitTestVisible = true;
+                tracksPolygons3Overlay.Routes.Add(route3);
+            }
         }
 
         public static GMapOverlay FindOverlay(string overlayId, GMapControl gMap)

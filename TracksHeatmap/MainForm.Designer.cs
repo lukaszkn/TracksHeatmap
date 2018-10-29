@@ -131,7 +131,7 @@
             this.toolStripMenuItem1,
             this.menuSaveAsImage});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 98);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(149, 76);
             // 
             // menuGPSposition
             // 
@@ -270,6 +270,7 @@
             this.cmbPlotStyle.Name = "cmbPlotStyle";
             this.cmbPlotStyle.Size = new System.Drawing.Size(162, 21);
             this.cmbPlotStyle.TabIndex = 4;
+            this.cmbPlotStyle.SelectedValueChanged += new System.EventHandler(this.cmbPlotStyle_SelectedValueChanged);
             // 
             // label7
             // 
