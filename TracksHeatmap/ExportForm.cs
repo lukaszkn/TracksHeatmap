@@ -25,6 +25,8 @@ namespace TracksHeatmap
         public TracksStyles tracksStyle;
         public Color BackgroundColor;
         public Color BackgroundColor2 = Color.FromArgb(3, 124, 34);
+        public double TrackBackgroundWidth = 4;
+        public double TrackBackground2Width = 7;
 
         private bool isMapReady = false;
 
@@ -46,6 +48,8 @@ namespace TracksHeatmap
             tracksOptimiser.BackgroundColor = BackgroundColor;
             tracksOptimiser.BackgroundColor2 = BackgroundColor2;
             tracksOptimiser.ZoomRatio = Math.Round(zoom - gmap.Zoom, 1);
+            tracksOptimiser.TrackBackgroundWidth = this.TrackBackgroundWidth;
+            tracksOptimiser.TrackBackground2Width = this.TrackBackground2Width;
             tracksOptimiser.Run(gMapExport, this.Tracks, trackColor, trackWidth, tracksStyle);
 
             gMapExport.Position = gmap.Position;

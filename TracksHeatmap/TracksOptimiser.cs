@@ -9,21 +9,23 @@ using System.Threading.Tasks;
 
 namespace TracksHeatmap
 {
-    public enum TracksStyles { Simple, With_background, With_2_backgrounds }
+    public enum TracksStyles { Simple, Random_colors, With_background, With_2_backgrounds }
 
     public class TracksOptimiser
     {
         private GMapControl gMap;
         private Color trackColor;
-        private int trackWidth;
+        private double trackWidth;
         private TracksStyles tracksStyles;
 
         public string Info;
         public double ZoomRatio = 1;
         public Color BackgroundColor;
         public Color BackgroundColor2 = Color.FromArgb(3, 124, 34);
+        public double TrackBackgroundWidth = 4;
+        public double TrackBackground2Width = 7;
 
-        public void Run(GMapControl gMap, List<Geo.Gps.Track> tracks, Color trackColor, int trackWidth, TracksStyles tracksStyles)
+        public void Run(GMapControl gMap, List<Geo.Gps.Track> tracks, Color trackColor, double trackWidth, TracksStyles tracksStyles)
         {
             if (tracks == null) return;
             this.gMap = gMap;
@@ -132,6 +134,8 @@ namespace TracksHeatmap
             return false;
         }
 
+        private static readonly Random rand = new Random();
+
         private void AddRoute(List<PointLatLng> mapPoints, string tagName)
         {
             GMapOverlay tracksPolygonsOverlay = FindOverlay(Constants.TracksPolygonsId, gMap);
@@ -139,7 +143,15 @@ namespace TracksHeatmap
             GMapOverlay tracksPolygons3Overlay = FindOverlay(Constants.TracksPolygons3Id, gMap);
 
             GMapRoute route = new GMapRoute(mapPoints, "track" + tracksPolygonsOverlay.Routes.Count);
-            route.Stroke = new Pen(Color.FromArgb(255, trackColor), Convert.ToSingle(trackWidth * this.ZoomRatio));
+
+            if (tracksStyles == TracksStyles.Random_colors) {
+                Color randColor = Color.FromArgb(rand.Next(256), rand.Next(256), rand.Next(256));
+                route.Stroke = new Pen(Color.FromArgb(255, randColor), Convert.ToSingle(trackWidth * this.ZoomRatio));
+            }
+            else
+            {
+                route.Stroke = new Pen(Color.FromArgb(255, trackColor), Convert.ToSingle(trackWidth * this.ZoomRatio));
+            }
             route.Tag = tagName;
             route.IsHitTestVisible = true;
             tracksPolygonsOverlay.Routes.Add(route);
@@ -147,7 +159,7 @@ namespace TracksHeatmap
             if (tracksStyles == TracksStyles.With_background || tracksStyles == TracksStyles.With_2_backgrounds)
             {
                 GMapRoute route2 = new GMapRoute(mapPoints, "track2_" + tracksPolygons2Overlay.Routes.Count);
-                route2.Stroke = new Pen(Color.FromArgb(200, BackgroundColor), Convert.ToSingle(4 * trackWidth * this.ZoomRatio));
+                route2.Stroke = new Pen(Color.FromArgb(200, BackgroundColor), Convert.ToSingle(TrackBackgroundWidth * this.ZoomRatio));
                 route2.Tag = tagName;
                 route2.IsHitTestVisible = true;
                 tracksPolygons2Overlay.Routes.Add(route2);
@@ -156,7 +168,7 @@ namespace TracksHeatmap
             if (tracksStyles == TracksStyles.With_2_backgrounds)
             {
                 GMapRoute route3 = new GMapRoute(mapPoints, "track3_" + tracksPolygons2Overlay.Routes.Count);
-                route3.Stroke = new Pen(Color.FromArgb(100, BackgroundColor2), Convert.ToSingle(7 * trackWidth * this.ZoomRatio));
+                route3.Stroke = new Pen(Color.FromArgb(100, BackgroundColor2), Convert.ToSingle(TrackBackground2Width * this.ZoomRatio));
                 route3.Tag = tagName;
                 route3.IsHitTestVisible = true;
                 tracksPolygons3Overlay.Routes.Add(route3);

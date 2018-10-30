@@ -175,6 +175,8 @@ namespace TracksHeatmap
             TracksOptimiser tracksOptimiser = new TracksOptimiser();
             tracksOptimiser.BackgroundColor = btnTrackBakground.BackColor;
             tracksOptimiser.BackgroundColor2 = btnTrackBakground2.BackColor;
+            tracksOptimiser.TrackBackgroundWidth = Convert.ToDouble(numBakgroundWidth.Value);
+            tracksOptimiser.TrackBackground2Width = Convert.ToDouble(numBakground2Width.Value);
             tracksOptimiser.Run(this.gMap, this.Tracks, btnTrackColor.ForeColor, (int)numTrackWidth.Value, (TracksStyles)cmbPlotStyle.SelectedIndex);
 
             return tracksOptimiser;

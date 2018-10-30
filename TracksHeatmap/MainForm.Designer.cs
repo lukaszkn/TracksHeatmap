@@ -72,6 +72,13 @@
             this.btnTrackBakground2 = new System.Windows.Forms.Button();
             this.menuTrackName = new System.Windows.Forms.ToolStripMenuItem();
             this.lblSelectedRoute = new System.Windows.Forms.ToolStripStatusLabel();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.numBakgroundWidth = new System.Windows.Forms.NumericUpDown();
+            this.label8 = new System.Windows.Forms.Label();
+            this.numBakground2Width = new System.Windows.Forms.NumericUpDown();
+            this.label9 = new System.Windows.Forms.Label();
             this.contextMenuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -89,6 +96,11 @@
             this.tabPagePlotOptions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numTrackWidth)).BeginInit();
             this.tabPageStats.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            this.groupBox6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numBakgroundWidth)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numBakground2Width)).BeginInit();
             this.SuspendLayout();
             // 
             // gMap
@@ -485,11 +497,9 @@
             // 
             // tabPagePlotOptions
             // 
-            this.tabPagePlotOptions.Controls.Add(this.btnTrackBakground2);
-            this.tabPagePlotOptions.Controls.Add(this.btnTrackBakground);
-            this.tabPagePlotOptions.Controls.Add(this.label6);
-            this.tabPagePlotOptions.Controls.Add(this.numTrackWidth);
-            this.tabPagePlotOptions.Controls.Add(this.btnTrackColor);
+            this.tabPagePlotOptions.Controls.Add(this.groupBox6);
+            this.tabPagePlotOptions.Controls.Add(this.groupBox5);
+            this.tabPagePlotOptions.Controls.Add(this.groupBox4);
             this.tabPagePlotOptions.Location = new System.Drawing.Point(4, 22);
             this.tabPagePlotOptions.Name = "tabPagePlotOptions";
             this.tabPagePlotOptions.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -503,9 +513,9 @@
             this.btnTrackBakground.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(201)))), ((int)(((byte)(63)))));
             this.btnTrackBakground.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnTrackBakground.ForeColor = System.Drawing.Color.Black;
-            this.btnTrackBakground.Location = new System.Drawing.Point(8, 50);
+            this.btnTrackBakground.Location = new System.Drawing.Point(6, 19);
             this.btnTrackBakground.Name = "btnTrackBakground";
-            this.btnTrackBakground.Size = new System.Drawing.Size(197, 23);
+            this.btnTrackBakground.Size = new System.Drawing.Size(188, 23);
             this.btnTrackBakground.TabIndex = 6;
             this.btnTrackBakground.Text = "Track background color";
             this.btnTrackBakground.UseVisualStyleBackColor = false;
@@ -514,17 +524,17 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(123, 16);
+            this.label6.Location = new System.Drawing.Point(5, 51);
             this.label6.Name = "label6";
             this.label6.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label6.Size = new System.Drawing.Size(35, 13);
+            this.label6.Size = new System.Drawing.Size(38, 13);
             this.label6.TabIndex = 5;
-            this.label6.Text = "width:";
+            this.label6.Text = "Width:";
             // 
             // numTrackWidth
             // 
             this.numTrackWidth.DecimalPlaces = 1;
-            this.numTrackWidth.Location = new System.Drawing.Point(164, 14);
+            this.numTrackWidth.Location = new System.Drawing.Point(46, 48);
             this.numTrackWidth.Maximum = new decimal(new int[] {
             10,
             0,
@@ -549,9 +559,9 @@
             // 
             this.btnTrackColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnTrackColor.ForeColor = System.Drawing.Color.Red;
-            this.btnTrackColor.Location = new System.Drawing.Point(8, 11);
+            this.btnTrackColor.Location = new System.Drawing.Point(6, 19);
             this.btnTrackColor.Name = "btnTrackColor";
-            this.btnTrackColor.Size = new System.Drawing.Size(99, 23);
+            this.btnTrackColor.Size = new System.Drawing.Size(188, 23);
             this.btnTrackColor.TabIndex = 3;
             this.btnTrackColor.Text = "Track color";
             this.btnTrackColor.UseVisualStyleBackColor = true;
@@ -583,9 +593,9 @@
             this.btnTrackBakground2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(124)))), ((int)(((byte)(34)))));
             this.btnTrackBakground2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnTrackBakground2.ForeColor = System.Drawing.Color.Black;
-            this.btnTrackBakground2.Location = new System.Drawing.Point(8, 79);
+            this.btnTrackBakground2.Location = new System.Drawing.Point(6, 19);
             this.btnTrackBakground2.Name = "btnTrackBakground2";
-            this.btnTrackBakground2.Size = new System.Drawing.Size(197, 23);
+            this.btnTrackBakground2.Size = new System.Drawing.Size(188, 23);
             this.btnTrackBakground2.TabIndex = 7;
             this.btnTrackBakground2.Text = "Track background color";
             this.btnTrackBakground2.UseVisualStyleBackColor = false;
@@ -603,6 +613,111 @@
             this.lblSelectedRoute.Name = "lblSelectedRoute";
             this.lblSelectedRoute.Padding = new System.Windows.Forms.Padding(0, 0, 20, 0);
             this.lblSelectedRoute.Size = new System.Drawing.Size(20, 17);
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.btnTrackColor);
+            this.groupBox4.Controls.Add(this.numTrackWidth);
+            this.groupBox4.Controls.Add(this.label6);
+            this.groupBox4.Location = new System.Drawing.Point(8, 3);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.groupBox4.Size = new System.Drawing.Size(202, 83);
+            this.groupBox4.TabIndex = 8;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Track color";
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.numBakgroundWidth);
+            this.groupBox5.Controls.Add(this.label8);
+            this.groupBox5.Controls.Add(this.btnTrackBakground);
+            this.groupBox5.Location = new System.Drawing.Point(8, 92);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.groupBox5.Size = new System.Drawing.Size(202, 100);
+            this.groupBox5.TabIndex = 9;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Track background bolor";
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.numBakground2Width);
+            this.groupBox6.Controls.Add(this.label9);
+            this.groupBox6.Controls.Add(this.btnTrackBakground2);
+            this.groupBox6.Location = new System.Drawing.Point(8, 198);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.groupBox6.Size = new System.Drawing.Size(202, 100);
+            this.groupBox6.TabIndex = 10;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Track second background bolor";
+            // 
+            // numBakgroundWidth
+            // 
+            this.numBakgroundWidth.DecimalPlaces = 1;
+            this.numBakgroundWidth.Location = new System.Drawing.Point(46, 48);
+            this.numBakgroundWidth.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.numBakgroundWidth.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numBakgroundWidth.Name = "numBakgroundWidth";
+            this.numBakgroundWidth.Size = new System.Drawing.Size(41, 20);
+            this.numBakgroundWidth.TabIndex = 7;
+            this.numBakgroundWidth.Value = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(5, 51);
+            this.label8.Name = "label8";
+            this.label8.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label8.Size = new System.Drawing.Size(38, 13);
+            this.label8.TabIndex = 8;
+            this.label8.Text = "Width:";
+            // 
+            // numBakground2Width
+            // 
+            this.numBakground2Width.DecimalPlaces = 1;
+            this.numBakground2Width.Location = new System.Drawing.Point(46, 48);
+            this.numBakground2Width.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.numBakground2Width.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numBakground2Width.Name = "numBakground2Width";
+            this.numBakground2Width.Size = new System.Drawing.Size(41, 20);
+            this.numBakground2Width.TabIndex = 9;
+            this.numBakground2Width.Value = new decimal(new int[] {
+            7,
+            0,
+            0,
+            0});
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(5, 51);
+            this.label9.Name = "label9";
+            this.label9.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label9.Size = new System.Drawing.Size(38, 13);
+            this.label9.TabIndex = 10;
+            this.label9.Text = "Width:";
             // 
             // MainForm
             // 
@@ -634,10 +749,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.numExportHeight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numExportWidth)).EndInit();
             this.tabPagePlotOptions.ResumeLayout(false);
-            this.tabPagePlotOptions.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numTrackWidth)).EndInit();
             this.tabPageStats.ResumeLayout(false);
             this.tabPageStats.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numBakgroundWidth)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numBakground2Width)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -687,6 +809,13 @@
         private System.Windows.Forms.Button btnTrackBakground2;
         private System.Windows.Forms.ToolStripMenuItem menuTrackName;
         private System.Windows.Forms.ToolStripStatusLabel lblSelectedRoute;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.NumericUpDown numBakground2Width;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.NumericUpDown numBakgroundWidth;
+        private System.Windows.Forms.Label label8;
     }
 }
 

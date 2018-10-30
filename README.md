@@ -13,3 +13,7 @@ Use <a href="https://tapiriik.com">tapiriik.com<a/> to export your tracks from E
 ***
 
 ![](../master/Images/LoadTracks.png)
+
+***
+
+![](../master/Images/TracksHeatmap2.png)
