@@ -107,8 +107,11 @@ namespace TracksHeatmap
                 txtInfo.Text = loadTracksForm.GetInfo();
                 LoadTracksToMap();
 
-                // center tracks after loading
-                btnCenterTracks_Click(sender, e);
+                if (loadTracksForm.CenterTracks)
+                {
+                    // center tracks after loading
+                    btnCenterTracks_Click(sender, e);
+                }
             }
         }
 
@@ -173,13 +176,26 @@ namespace TracksHeatmap
             if (Tracks == null) return null;
 
             TracksOptimiser tracksOptimiser = new TracksOptimiser();
-            tracksOptimiser.BackgroundColor = btnTrackBakground.BackColor;
-            tracksOptimiser.BackgroundColor2 = btnTrackBakground2.BackColor;
-            tracksOptimiser.TrackBackgroundWidth = Convert.ToDouble(numBakgroundWidth.Value);
-            tracksOptimiser.TrackBackground2Width = Convert.ToDouble(numBakground2Width.Value);
-            tracksOptimiser.Run(this.gMap, this.Tracks, btnTrackColor.ForeColor, (int)numTrackWidth.Value, (TracksStyles)cmbPlotStyle.SelectedIndex);
+            tracksOptimiser.Run(this.gMap, this.Tracks, GetTrackOptions());
 
             return tracksOptimiser;
+        }
+
+        private TracksOptimiserOptions GetTrackOptions()
+        {
+            TracksOptimiserOptions options = new TracksOptimiserOptions();
+
+            options.TrackColor = btnTrackColor.ForeColor;
+            options.TrackWidth = (int)numTrackWidth.Value;
+            options.TracksStyles = (TracksStyles)cmbPlotStyle.SelectedIndex;
+            options.BackgroundColor = btnTrackBakground.BackColor;
+            options.BackgroundColor2 = btnTrackBakground2.BackColor;
+            options.TrackBackgroundWidth = Convert.ToDouble(numBakgroundWidth.Value);
+            options.TrackBackground2Width = Convert.ToDouble(numBakground2Width.Value);
+            options.DisconnectGapPoints = chkDisconnectGapPoints.Checked;
+            options.DisconnectTrackGapsMultiple = Convert.ToDouble(numDisconnectTrackGaps.Value);
+
+            return options;
         }
 
         private void btnExport_Click(object sender, EventArgs e)
@@ -202,14 +218,10 @@ namespace TracksHeatmap
                     ExportForm export = new ExportForm();
                     export.Tracks = this.Tracks;
                     export.gmap = this.gMap;
+                    export.TracksOptimiserOptions = GetTrackOptions();
                     export.exportWidth = (int)numExportWidth.Value;
                     export.exportHeight = (int)numExportHeight.Value;
-                    export.trackColor = btnTrackColor.ForeColor;
-                    export.trackWidth = (int)numTrackWidth.Value;
                     export.filename = saveFileDialog.FileName;
-                    export.tracksStyle = (TracksStyles)cmbPlotStyle.SelectedIndex;
-                    export.BackgroundColor = btnTrackBakground.BackColor;
-                    export.BackgroundColor2 = btnTrackBakground2.BackColor;
                     export.ShowDialog();
                 }
             }
@@ -291,6 +303,11 @@ namespace TracksHeatmap
         }
 
         private void cmbPlotStyle_SelectedValueChanged(object sender, EventArgs e)
+        {
+            UpdateTracksPlot();
+        }
+
+        private void chkDisconnectGapPoints_CheckedChanged(object sender, EventArgs e)
         {
             UpdateTracksPlot();
         }

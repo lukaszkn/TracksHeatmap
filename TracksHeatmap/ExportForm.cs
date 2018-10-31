@@ -19,14 +19,8 @@ namespace TracksHeatmap
         public GMapControl gmap;
         public int exportWidth;
         public int exportHeight;
-        public Color trackColor;
-        public int trackWidth;
         public string filename;
-        public TracksStyles tracksStyle;
-        public Color BackgroundColor;
-        public Color BackgroundColor2 = Color.FromArgb(3, 124, 34);
-        public double TrackBackgroundWidth = 4;
-        public double TrackBackground2Width = 7;
+        public TracksOptimiserOptions TracksOptimiserOptions;
 
         private bool isMapReady = false;
 
@@ -45,12 +39,8 @@ namespace TracksHeatmap
             gMapExport.Size = new Size(gmap.Size.Width * ratio, gmap.Size.Height * ratio);
 
             TracksOptimiser tracksOptimiser = new TracksOptimiser();
-            tracksOptimiser.BackgroundColor = BackgroundColor;
-            tracksOptimiser.BackgroundColor2 = BackgroundColor2;
             tracksOptimiser.ZoomRatio = Math.Round(zoom - gmap.Zoom, 1);
-            tracksOptimiser.TrackBackgroundWidth = this.TrackBackgroundWidth;
-            tracksOptimiser.TrackBackground2Width = this.TrackBackground2Width;
-            tracksOptimiser.Run(gMapExport, this.Tracks, trackColor, trackWidth, tracksStyle);
+            tracksOptimiser.Run(gMapExport, this.Tracks, this.TracksOptimiserOptions);
 
             gMapExport.Position = gmap.Position;
             gMapExport.ScaleMode = ScaleModes.Integer;

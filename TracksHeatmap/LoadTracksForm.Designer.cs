@@ -31,6 +31,13 @@
             this.btnLoadFolder = new System.Windows.Forms.Button();
             this.btnLoadFiles = new System.Windows.Forms.Button();
             this.groupBoxOptions = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.numSpeedTo = new System.Windows.Forms.NumericUpDown();
+            this.numSpeedFrom = new System.Windows.Forms.NumericUpDown();
+            this.chkAvgSpeedBetween = new System.Windows.Forms.CheckBox();
+            this.txtMustContain = new System.Windows.Forms.TextBox();
+            this.chkFilenameMustContain = new System.Windows.Forms.CheckBox();
             this.chkLoadForVisibleMap = new System.Windows.Forms.CheckBox();
             this.dtTo = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
@@ -43,18 +50,12 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblProgressPercent = new System.Windows.Forms.ToolStripStatusLabel();
             this.progressBar1 = new System.Windows.Forms.ToolStripProgressBar();
-            this.chkFilenameMustContain = new System.Windows.Forms.CheckBox();
-            this.txtMustContain = new System.Windows.Forms.TextBox();
-            this.chkAvgSpeedBetween = new System.Windows.Forms.CheckBox();
-            this.numSpeedFrom = new System.Windows.Forms.NumericUpDown();
-            this.numSpeedTo = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.chkCenterTracks = new System.Windows.Forms.CheckBox();
             this.groupBoxOptions.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numSpeedTo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numSpeedFrom)).BeginInit();
             this.groupBoxSelectFolderFiles.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numSpeedFrom)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numSpeedTo)).BeginInit();
             this.SuspendLayout();
             // 
             // btnLoadFolder
@@ -79,6 +80,7 @@
             // 
             // groupBoxOptions
             // 
+            this.groupBoxOptions.Controls.Add(this.chkCenterTracks);
             this.groupBoxOptions.Controls.Add(this.label3);
             this.groupBoxOptions.Controls.Add(this.label2);
             this.groupBoxOptions.Controls.Add(this.numSpeedTo);
@@ -93,10 +95,87 @@
             this.groupBoxOptions.Controls.Add(this.chkDatesBetween);
             this.groupBoxOptions.Location = new System.Drawing.Point(12, 101);
             this.groupBoxOptions.Name = "groupBoxOptions";
-            this.groupBoxOptions.Size = new System.Drawing.Size(489, 132);
+            this.groupBoxOptions.Size = new System.Drawing.Size(489, 153);
             this.groupBoxOptions.TabIndex = 2;
             this.groupBoxOptions.TabStop = false;
             this.groupBoxOptions.Text = "Options";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(307, 97);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(32, 13);
+            this.label3.TabIndex = 11;
+            this.label3.Text = "km/h";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(211, 97);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(25, 13);
+            this.label2.TabIndex = 10;
+            this.label2.Text = "and";
+            // 
+            // numSpeedTo
+            // 
+            this.numSpeedTo.DecimalPlaces = 1;
+            this.numSpeedTo.Location = new System.Drawing.Point(242, 95);
+            this.numSpeedTo.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numSpeedTo.Name = "numSpeedTo";
+            this.numSpeedTo.Size = new System.Drawing.Size(59, 20);
+            this.numSpeedTo.TabIndex = 9;
+            this.numSpeedTo.Value = new decimal(new int[] {
+            65,
+            0,
+            0,
+            65536});
+            // 
+            // numSpeedFrom
+            // 
+            this.numSpeedFrom.DecimalPlaces = 1;
+            this.numSpeedFrom.Location = new System.Drawing.Point(146, 95);
+            this.numSpeedFrom.Maximum = new decimal(new int[] {
+            300,
+            0,
+            0,
+            0});
+            this.numSpeedFrom.Name = "numSpeedFrom";
+            this.numSpeedFrom.Size = new System.Drawing.Size(59, 20);
+            this.numSpeedFrom.TabIndex = 8;
+            // 
+            // chkAvgSpeedBetween
+            // 
+            this.chkAvgSpeedBetween.AutoSize = true;
+            this.chkAvgSpeedBetween.Location = new System.Drawing.Point(6, 95);
+            this.chkAvgSpeedBetween.Name = "chkAvgSpeedBetween";
+            this.chkAvgSpeedBetween.Size = new System.Drawing.Size(127, 17);
+            this.chkAvgSpeedBetween.TabIndex = 7;
+            this.chkAvgSpeedBetween.Text = "Avg. speed between:";
+            this.chkAvgSpeedBetween.UseVisualStyleBackColor = true;
+            // 
+            // txtMustContain
+            // 
+            this.txtMustContain.Location = new System.Drawing.Point(146, 69);
+            this.txtMustContain.Name = "txtMustContain";
+            this.txtMustContain.Size = new System.Drawing.Size(100, 20);
+            this.txtMustContain.TabIndex = 6;
+            this.txtMustContain.Text = "walk";
+            // 
+            // chkFilenameMustContain
+            // 
+            this.chkFilenameMustContain.AutoSize = true;
+            this.chkFilenameMustContain.Location = new System.Drawing.Point(6, 71);
+            this.chkFilenameMustContain.Name = "chkFilenameMustContain";
+            this.chkFilenameMustContain.Size = new System.Drawing.Size(134, 17);
+            this.chkFilenameMustContain.TabIndex = 5;
+            this.chkFilenameMustContain.Text = "Filename must contain:";
+            this.chkFilenameMustContain.UseVisualStyleBackColor = true;
             // 
             // chkLoadForVisibleMap
             // 
@@ -165,7 +244,7 @@
             // 
             // btnLoad
             // 
-            this.btnLoad.Location = new System.Drawing.Point(345, 256);
+            this.btnLoad.Location = new System.Drawing.Point(345, 282);
             this.btnLoad.Name = "btnLoad";
             this.btnLoad.Size = new System.Drawing.Size(75, 23);
             this.btnLoad.TabIndex = 4;
@@ -176,7 +255,7 @@
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(426, 256);
+            this.btnCancel.Location = new System.Drawing.Point(426, 282);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 5;
@@ -188,7 +267,7 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblProgressPercent,
             this.progressBar1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 302);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 332);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(513, 22);
             this.statusStrip1.TabIndex = 6;
@@ -208,88 +287,23 @@
             this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.progressBar1.Value = 20;
             // 
-            // chkFilenameMustContain
+            // chkCenterTracks
             // 
-            this.chkFilenameMustContain.AutoSize = true;
-            this.chkFilenameMustContain.Location = new System.Drawing.Point(6, 71);
-            this.chkFilenameMustContain.Name = "chkFilenameMustContain";
-            this.chkFilenameMustContain.Size = new System.Drawing.Size(134, 17);
-            this.chkFilenameMustContain.TabIndex = 5;
-            this.chkFilenameMustContain.Text = "Filename must contain:";
-            this.chkFilenameMustContain.UseVisualStyleBackColor = true;
-            // 
-            // txtMustContain
-            // 
-            this.txtMustContain.Location = new System.Drawing.Point(146, 69);
-            this.txtMustContain.Name = "txtMustContain";
-            this.txtMustContain.Size = new System.Drawing.Size(100, 20);
-            this.txtMustContain.TabIndex = 6;
-            this.txtMustContain.Text = "walk";
-            // 
-            // chkAvgSpeedBetween
-            // 
-            this.chkAvgSpeedBetween.AutoSize = true;
-            this.chkAvgSpeedBetween.Location = new System.Drawing.Point(6, 95);
-            this.chkAvgSpeedBetween.Name = "chkAvgSpeedBetween";
-            this.chkAvgSpeedBetween.Size = new System.Drawing.Size(127, 17);
-            this.chkAvgSpeedBetween.TabIndex = 7;
-            this.chkAvgSpeedBetween.Text = "Avg. speed between:";
-            this.chkAvgSpeedBetween.UseVisualStyleBackColor = true;
-            // 
-            // numSpeedFrom
-            // 
-            this.numSpeedFrom.DecimalPlaces = 1;
-            this.numSpeedFrom.Location = new System.Drawing.Point(146, 95);
-            this.numSpeedFrom.Maximum = new decimal(new int[] {
-            300,
-            0,
-            0,
-            0});
-            this.numSpeedFrom.Name = "numSpeedFrom";
-            this.numSpeedFrom.Size = new System.Drawing.Size(59, 20);
-            this.numSpeedFrom.TabIndex = 8;
-            // 
-            // numSpeedTo
-            // 
-            this.numSpeedTo.DecimalPlaces = 1;
-            this.numSpeedTo.Location = new System.Drawing.Point(242, 95);
-            this.numSpeedTo.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.numSpeedTo.Name = "numSpeedTo";
-            this.numSpeedTo.Size = new System.Drawing.Size(59, 20);
-            this.numSpeedTo.TabIndex = 9;
-            this.numSpeedTo.Value = new decimal(new int[] {
-            65,
-            0,
-            0,
-            65536});
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(211, 97);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(25, 13);
-            this.label2.TabIndex = 10;
-            this.label2.Text = "and";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(307, 97);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(32, 13);
-            this.label3.TabIndex = 11;
-            this.label3.Text = "km/h";
+            this.chkCenterTracks.AutoSize = true;
+            this.chkCenterTracks.Checked = true;
+            this.chkCenterTracks.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkCenterTracks.Location = new System.Drawing.Point(6, 120);
+            this.chkCenterTracks.Name = "chkCenterTracks";
+            this.chkCenterTracks.Size = new System.Drawing.Size(193, 17);
+            this.chkCenterTracks.TabIndex = 12;
+            this.chkCenterTracks.Text = "Center tracks on maps after loading";
+            this.chkCenterTracks.UseVisualStyleBackColor = true;
             // 
             // LoadTracksForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(513, 324);
+            this.ClientSize = new System.Drawing.Size(513, 354);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnLoad);
@@ -302,12 +316,12 @@
             this.Load += new System.EventHandler(this.LoadTracksForm_Load);
             this.groupBoxOptions.ResumeLayout(false);
             this.groupBoxOptions.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numSpeedTo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numSpeedFrom)).EndInit();
             this.groupBoxSelectFolderFiles.ResumeLayout(false);
             this.groupBoxSelectFolderFiles.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numSpeedFrom)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numSpeedTo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -337,5 +351,6 @@
         private System.Windows.Forms.NumericUpDown numSpeedTo;
         private System.Windows.Forms.NumericUpDown numSpeedFrom;
         private System.Windows.Forms.CheckBox chkAvgSpeedBetween;
+        private System.Windows.Forms.CheckBox chkCenterTracks;
     }
 }

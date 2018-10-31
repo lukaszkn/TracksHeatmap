@@ -1,4 +1,5 @@
-﻿using Geo.Gps.Serialization;
+﻿using Geo.Gps;
+using Geo.Gps.Serialization;
 using GMap.NET;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,7 @@ namespace TracksHeatmap
         public double TotalDistance;
         public TimeSpan TotalTime = TimeSpan.Zero;
         public RectLatLng ViewArea;
+        public bool CenterTracks;
 
         public LoadTracksForm()
         {
@@ -65,8 +67,15 @@ namespace TracksHeatmap
 
         private void LoadFolder(string selectedPath)
         {
-            this.filenames = Directory.GetFiles(selectedPath, "*.gpx");
-            lblFolderOrFiles.Text = "Files found: " + this.filenames.Length.ToString() + "; " + selectedPath;
+            try
+            {
+                this.filenames = Directory.GetFiles(selectedPath, "*.gpx");
+                lblFolderOrFiles.Text = "Files found: " + this.filenames.Length.ToString() + "; " + selectedPath;
+            }
+            catch (Exception ex)
+            {
+                lblFolderOrFiles.Text = "Error: " + ex.Message;
+            }
         }
 
         private void btnLoadFiles_Click(object sender, EventArgs e)
@@ -96,9 +105,11 @@ namespace TracksHeatmap
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
+            CenterTracks = chkCenterTracks.Checked;
+
             if (this.filenames == null || this.filenames.Length == 0)
             {
-                this.DialogResult = DialogResult.Cancel;
+                MessageBox.Show("Select folder or files to load", "Warning");
                 return;
             }
 

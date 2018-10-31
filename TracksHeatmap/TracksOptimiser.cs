@@ -14,27 +14,19 @@ namespace TracksHeatmap
     public class TracksOptimiser
     {
         private GMapControl gMap;
-        private Color trackColor;
-        private double trackWidth;
-        private TracksStyles tracksStyles;
+        private TracksOptimiserOptions options;
 
         public string Info;
         public double ZoomRatio = 1;
-        public Color BackgroundColor;
-        public Color BackgroundColor2 = Color.FromArgb(3, 124, 34);
-        public double TrackBackgroundWidth = 4;
-        public double TrackBackground2Width = 7;
 
-        public void Run(GMapControl gMap, List<Geo.Gps.Track> tracks, Color trackColor, double trackWidth, TracksStyles tracksStyles)
+        public void Run(GMapControl gMap, List<Geo.Gps.Track> tracks, TracksOptimiserOptions options)
         {
             if (tracks == null) return;
             this.gMap = gMap;
-            this.trackColor = trackColor;
-            this.trackWidth = trackWidth;
-            this.tracksStyles = tracksStyles;
+            this.options = options;
 
             int minPixels = 10;
-            switch (tracksStyles)
+            switch (options.TracksStyles)
             {
                 case TracksStyles.Simple: minPixels = 3; break;
                 case TracksStyles.With_background: minPixels = 7; break;
@@ -116,7 +108,7 @@ namespace TracksHeatmap
         private bool AddPoint(List<PointLatLng> mapPoints, Geo.Gps.Fix lastPoint, Geo.Gps.Fix newPoint, double minimimDistance, string tagName)
         {
             double distance = GetDistance(lastPoint.Coordinate.Latitude, lastPoint.Coordinate.Longitude, newPoint.Coordinate.Latitude, newPoint.Coordinate.Longitude);
-            if (distance >= 3 * minimimDistance)
+            if (options.DisconnectGapPoints && distance >= options.DisconnectTrackGapsMultiple * minimimDistance)
             {
                 // start new route if point is too far away
                 AddRoute(mapPoints, tagName);
@@ -144,31 +136,31 @@ namespace TracksHeatmap
 
             GMapRoute route = new GMapRoute(mapPoints, "track" + tracksPolygonsOverlay.Routes.Count);
 
-            if (tracksStyles == TracksStyles.Random_colors) {
+            if (options.TracksStyles == TracksStyles.Random_colors) {
                 Color randColor = Color.FromArgb(rand.Next(256), rand.Next(256), rand.Next(256));
-                route.Stroke = new Pen(Color.FromArgb(255, randColor), Convert.ToSingle(trackWidth * this.ZoomRatio));
+                route.Stroke = new Pen(Color.FromArgb(255, randColor), Convert.ToSingle(options.TrackWidth * this.ZoomRatio));
             }
             else
             {
-                route.Stroke = new Pen(Color.FromArgb(255, trackColor), Convert.ToSingle(trackWidth * this.ZoomRatio));
+                route.Stroke = new Pen(Color.FromArgb(255, options.TrackColor), Convert.ToSingle(options.TrackWidth * this.ZoomRatio));
             }
             route.Tag = tagName;
             route.IsHitTestVisible = true;
             tracksPolygonsOverlay.Routes.Add(route);
 
-            if (tracksStyles == TracksStyles.With_background || tracksStyles == TracksStyles.With_2_backgrounds)
+            if (options.TracksStyles == TracksStyles.With_background || options.TracksStyles == TracksStyles.With_2_backgrounds)
             {
                 GMapRoute route2 = new GMapRoute(mapPoints, "track2_" + tracksPolygons2Overlay.Routes.Count);
-                route2.Stroke = new Pen(Color.FromArgb(200, BackgroundColor), Convert.ToSingle(TrackBackgroundWidth * this.ZoomRatio));
+                route2.Stroke = new Pen(Color.FromArgb(200, options.BackgroundColor), Convert.ToSingle(options.TrackBackgroundWidth * this.ZoomRatio));
                 route2.Tag = tagName;
                 route2.IsHitTestVisible = true;
                 tracksPolygons2Overlay.Routes.Add(route2);
             }
 
-            if (tracksStyles == TracksStyles.With_2_backgrounds)
+            if (options.TracksStyles == TracksStyles.With_2_backgrounds)
             {
                 GMapRoute route3 = new GMapRoute(mapPoints, "track3_" + tracksPolygons2Overlay.Routes.Count);
-                route3.Stroke = new Pen(Color.FromArgb(100, BackgroundColor2), Convert.ToSingle(TrackBackground2Width * this.ZoomRatio));
+                route3.Stroke = new Pen(Color.FromArgb(100, options.BackgroundColor2), Convert.ToSingle(options.TrackBackground2Width * this.ZoomRatio));
                 route3.Tag = tagName;
                 route3.IsHitTestVisible = true;
                 tracksPolygons3Overlay.Routes.Add(route3);
@@ -184,10 +176,22 @@ namespace TracksHeatmap
             return null;
         }
 
-        private double GetDistance(double x1, double y1, double x2, double y2)
+        public static double GetDistance(double x1, double y1, double x2, double y2)
         {
             return Math.Sqrt(Math.Pow((x2 - x1), 2) + Math.Pow((y2 - y1), 2));
         }
+    }
 
+    public class TracksOptimiserOptions
+    {
+        public Color TrackColor;
+        public double TrackWidth;
+        public TracksStyles TracksStyles;
+        public Color BackgroundColor;
+        public Color BackgroundColor2 = Color.FromArgb(3, 124, 34);
+        public double TrackBackgroundWidth = 4;
+        public double TrackBackground2Width = 7;
+        public bool DisconnectGapPoints = true;
+        public double DisconnectTrackGapsMultiple = 4;
     }
 }
