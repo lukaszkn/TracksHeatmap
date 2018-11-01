@@ -82,6 +82,7 @@
             this.tabPageStats = new System.Windows.Forms.TabPage();
             this.txtInfo = new System.Windows.Forms.TextBox();
             this.numDisconnectTrackGaps = new System.Windows.Forms.NumericUpDown();
+            this.btnMoreStats = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -733,6 +734,7 @@
             // 
             // tabPageStats
             // 
+            this.tabPageStats.Controls.Add(this.btnMoreStats);
             this.tabPageStats.Controls.Add(this.txtInfo);
             this.tabPageStats.Location = new System.Drawing.Point(4, 22);
             this.tabPageStats.Name = "tabPageStats";
@@ -744,11 +746,13 @@
             // 
             // txtInfo
             // 
-            this.txtInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtInfo.Location = new System.Drawing.Point(3, 3);
+            this.txtInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtInfo.Location = new System.Drawing.Point(3, 35);
             this.txtInfo.Multiline = true;
             this.txtInfo.Name = "txtInfo";
-            this.txtInfo.Size = new System.Drawing.Size(212, 566);
+            this.txtInfo.Size = new System.Drawing.Size(212, 534);
             this.txtInfo.TabIndex = 0;
             this.txtInfo.Text = "Load tracks first...";
             // 
@@ -769,6 +773,16 @@
             0,
             0});
             this.numDisconnectTrackGaps.ValueChanged += new System.EventHandler(this.numTrackWidth_ValueChanged);
+            // 
+            // btnMoreStats
+            // 
+            this.btnMoreStats.Location = new System.Drawing.Point(6, 6);
+            this.btnMoreStats.Name = "btnMoreStats";
+            this.btnMoreStats.Size = new System.Drawing.Size(204, 23);
+            this.btnMoreStats.TabIndex = 1;
+            this.btnMoreStats.Text = "More stats";
+            this.btnMoreStats.UseVisualStyleBackColor = true;
+            this.btnMoreStats.Click += new System.EventHandler(this.btnMoreStats_Click);
             // 
             // MainForm
             // 
@@ -873,6 +887,7 @@
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.CheckBox chkDisconnectGapPoints;
         private System.Windows.Forms.NumericUpDown numDisconnectTrackGaps;
+        private System.Windows.Forms.Button btnMoreStats;
     }
 }
 

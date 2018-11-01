@@ -311,5 +311,14 @@ namespace TracksHeatmap
         {
             UpdateTracksPlot();
         }
+
+        private void btnMoreStats_Click(object sender, EventArgs e)
+        {
+            StatsForm statsForm = new StatsForm();
+            statsForm.Tracks = this.Tracks;
+            statsForm.TracksOptimiserOptions = GetTrackOptions();
+            statsForm.MapProvider = gMap.MapProvider;
+            statsForm.ShowDialog();
+        }
     }
 }
