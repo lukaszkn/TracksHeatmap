@@ -11,11 +11,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace TracksHeatmap
 {
     public partial class StatsForm : Form
     {
+        enum Ranges { Yearly, Monthly, Daily }
         private int currentTrackIdx;
 
         public List<Track> Tracks;
@@ -25,6 +27,14 @@ namespace TracksHeatmap
         public StatsForm()
         {
             InitializeComponent();
+
+            var ranges = Enum.GetValues(typeof(Ranges)).Cast<Ranges>();
+            foreach (var range in ranges)
+            {
+                cmbActivityRange.Items.Add(range.ToString());
+            }
+
+            tabControl1.TabPages.Remove(tabPageActivityStats);
         }
 
         private void btnZoomIn_Click(object sender, EventArgs e)
@@ -123,5 +133,22 @@ namespace TracksHeatmap
         {
             LoadTrackToMap(this.currentTrackIdx, true);
         }
+
+        private void cmbActivityRange_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //ShowActivityStats();
+        }
+
+        //private void ShowActivityStats()
+        //{
+        //    this.chartActivityStats.ChartAreas[0].AxisX.Minimum = 5;
+
+        //    for (int i = 0; i < 12; i++)
+        //    {
+        //        DataPoint point = new DataPoint(i + 1, i * 2);
+        //        point.AxisLabel = "aa";
+        //        this.chartActivityStats.Series[0].Points.Add(point);
+        //    }
+        //}
     }
 }

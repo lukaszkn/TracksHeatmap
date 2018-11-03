@@ -28,6 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageTracksBrowser = new System.Windows.Forms.TabPage();
             this.tableLayoutTracksBrowser = new System.Windows.Forms.TableLayoutPanel();
@@ -43,6 +46,12 @@
             this.lblMapPoints = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblTracksPosition = new System.Windows.Forms.Label();
             this.txtTracksBrowserInfo = new System.Windows.Forms.TextBox();
+            this.tabPageActivityStats = new System.Windows.Forms.TabPage();
+            this.tableLayoutActivityStats = new System.Windows.Forms.TableLayoutPanel();
+            this.cmbActivityRange = new System.Windows.Forms.ComboBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.lblActivityStatsTitle = new System.Windows.Forms.Label();
+            this.chartActivityStats = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabControl1.SuspendLayout();
             this.tabPageTracksBrowser.SuspendLayout();
             this.tableLayoutTracksBrowser.SuspendLayout();
@@ -52,6 +61,10 @@
             this.splitContainerTracksBrowser.Panel2.SuspendLayout();
             this.splitContainerTracksBrowser.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            this.tabPageActivityStats.SuspendLayout();
+            this.tableLayoutActivityStats.SuspendLayout();
+            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chartActivityStats)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -60,6 +73,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPageTracksBrowser);
+            this.tabControl1.Controls.Add(this.tabPageActivityStats);
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -254,6 +268,76 @@
             this.txtTracksBrowserInfo.Size = new System.Drawing.Size(145, 212);
             this.txtTracksBrowserInfo.TabIndex = 4;
             // 
+            // tabPageActivityStats
+            // 
+            this.tabPageActivityStats.Controls.Add(this.tableLayoutActivityStats);
+            this.tabPageActivityStats.Location = new System.Drawing.Point(4, 22);
+            this.tabPageActivityStats.Name = "tabPageActivityStats";
+            this.tabPageActivityStats.Size = new System.Drawing.Size(1154, 519);
+            this.tabPageActivityStats.TabIndex = 1;
+            this.tabPageActivityStats.Text = "Activity stats";
+            this.tabPageActivityStats.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutActivityStats
+            // 
+            this.tableLayoutActivityStats.ColumnCount = 1;
+            this.tableLayoutActivityStats.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutActivityStats.Controls.Add(this.panel2, 0, 0);
+            this.tableLayoutActivityStats.Controls.Add(this.chartActivityStats, 0, 1);
+            this.tableLayoutActivityStats.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutActivityStats.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutActivityStats.Name = "tableLayoutActivityStats";
+            this.tableLayoutActivityStats.RowCount = 2;
+            this.tableLayoutActivityStats.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+            this.tableLayoutActivityStats.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutActivityStats.Size = new System.Drawing.Size(1154, 519);
+            this.tableLayoutActivityStats.TabIndex = 0;
+            // 
+            // cmbActivityRange
+            // 
+            this.cmbActivityRange.FormattingEnabled = true;
+            this.cmbActivityRange.Location = new System.Drawing.Point(0, 3);
+            this.cmbActivityRange.Name = "cmbActivityRange";
+            this.cmbActivityRange.Size = new System.Drawing.Size(121, 21);
+            this.cmbActivityRange.TabIndex = 4;
+            this.cmbActivityRange.SelectedIndexChanged += new System.EventHandler(this.cmbActivityRange_SelectedIndexChanged);
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.lblActivityStatsTitle);
+            this.panel2.Controls.Add(this.cmbActivityRange);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(3, 3);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1148, 26);
+            this.panel2.TabIndex = 1;
+            // 
+            // lblActivityStatsTitle
+            // 
+            this.lblActivityStatsTitle.AutoSize = true;
+            this.lblActivityStatsTitle.Location = new System.Drawing.Point(172, 6);
+            this.lblActivityStatsTitle.Name = "lblActivityStatsTitle";
+            this.lblActivityStatsTitle.Size = new System.Drawing.Size(95, 13);
+            this.lblActivityStatsTitle.TabIndex = 5;
+            this.lblActivityStatsTitle.Text = "lblActivityStatsTitle";
+            // 
+            // chartActivityStats
+            // 
+            chartArea1.Name = "ChartArea1";
+            this.chartActivityStats.ChartAreas.Add(chartArea1);
+            this.chartActivityStats.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend1.Name = "Legend1";
+            this.chartActivityStats.Legends.Add(legend1);
+            this.chartActivityStats.Location = new System.Drawing.Point(3, 35);
+            this.chartActivityStats.Name = "chartActivityStats";
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chartActivityStats.Series.Add(series1);
+            this.chartActivityStats.Size = new System.Drawing.Size(1148, 481);
+            this.chartActivityStats.TabIndex = 2;
+            this.chartActivityStats.Text = "chart1";
+            // 
             // StatsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -276,6 +360,11 @@
             this.splitContainerTracksBrowser.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.tabPageActivityStats.ResumeLayout(false);
+            this.tableLayoutActivityStats.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chartActivityStats)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -298,5 +387,11 @@
         private System.Windows.Forms.ToolStripStatusLabel lblMapPoints;
         private System.Windows.Forms.Label lblTracksPosition;
         private System.Windows.Forms.TextBox txtTracksBrowserInfo;
+        private System.Windows.Forms.TabPage tabPageActivityStats;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutActivityStats;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label lblActivityStatsTitle;
+        private System.Windows.Forms.ComboBox cmbActivityRange;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartActivityStats;
     }
 }

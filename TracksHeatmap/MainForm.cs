@@ -40,6 +40,7 @@ namespace TracksHeatmap
             mapTypes.Add(GMapProviders.OpenStreetMap);
             mapTypes.Add(GMapProviders.YandexMap);
             mapTypes.Add(GMapProviders.WikiMapiaMap);
+            mapTypes.Add(GMapProviders.UMPMap);
 
             foreach (GMapProvider mapType in mapTypes)
             {
