@@ -2,7 +2,7 @@
 Loaded tracks can be filtered by dates and/or tracks for visible map area.
 Download latest version from <a href="https://github.com/lukaszkn/TracksHeatmap/releases">releases<a/>
 
-Few different maps are available (ArcGIS, BingMap, OpenCycleMap, OpenStreet, Yandex, WikiMapia)
+Few different maps are available (ArcGIS, BingMap, OpenCycleMap, OpenStreet, Yandex, WikiMapia, UMP-pcPL)
 
 Use <a href="https://tapiriik.com">tapiriik.com<a/> to export your tracks from Endomondo, Strava or many ones.
 
