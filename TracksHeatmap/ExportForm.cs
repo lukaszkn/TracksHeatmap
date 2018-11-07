@@ -1,4 +1,5 @@
-﻿using GMap.NET.WindowsForms;
+﻿using GMap.NET;
+using GMap.NET.WindowsForms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,6 +9,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -22,16 +24,31 @@ namespace TracksHeatmap
         public string filename;
         public TracksOptimiserOptions TracksOptimiserOptions;
 
-        private bool isMapReady = false;
+        BackgroundWorker worker = new BackgroundWorker();
+        List<GPoint> list;
+        int all;
+        private GMap.NET.GSize maxOfTiles;
+        private readonly AutoResetEvent done = new AutoResetEvent(true);
+        private readonly Queue<GPoint> CachedTiles = new Queue<GPoint>();
 
         public ExportForm()
         {
             InitializeComponent();
+
+            GMaps.Instance.OnTileCacheComplete += new TileCacheComplete(OnTileCacheComplete);
+            GMaps.Instance.OnTileCacheStart += new TileCacheStart(OnTileCacheStart);
+            GMaps.Instance.OnTileCacheProgress += new TileCacheProgress(OnTileCacheProgress);
+
+            worker.WorkerReportsProgress = true;
+            worker.WorkerSupportsCancellation = true;
+            worker.ProgressChanged += new ProgressChangedEventHandler(worker_ProgressChanged);
+            worker.DoWork += new DoWorkEventHandler(worker_DoWork);
+            worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(worker_RunWorkerCompleted);
         }
 
         private void ExportForm_Load(object sender, EventArgs e)
         {
-            double zoom = gmap.Zoom + (double)exportWidth / gmap.Size.Width;
+            double zoom = gmap.Zoom + Math.Ceiling(Math.Sqrt((double)exportWidth / gmap.Size.Width));
             gMapExport.Zoom = (int)zoom;
 
             int ratio = Convert.ToInt32(Math.Pow(2, gMapExport.Zoom - gmap.Zoom));
@@ -48,19 +65,16 @@ namespace TracksHeatmap
 
             gMapExport.MapProvider = gmap.MapProvider;
 
-            gMapExport.OnTileLoadComplete += GMapExport_OnTileLoadComplete;
-            timer1.Enabled = true;
-
             gMapExport.ReloadMap();
             gMapExport.Refresh();
+
+            StartPrefetch();
         }
 
         private Bitmap ResizeImage(Image image, int width, int height)
         {
             var destRect = new Rectangle(0, 0, width, height);
             var destImage = new Bitmap(width, height);
-
-            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
 
             using (var graphics = Graphics.FromImage(destImage))
             {
@@ -80,18 +94,152 @@ namespace TracksHeatmap
             return destImage;
         }
 
-        private void GMapExport_OnTileLoadComplete(long ElapsedMilliseconds)
+        #region Map events
+
+        void OnTileCacheComplete()
         {
-            isMapReady = true;
+            Console.WriteLine("OnTileCacheComplete");
+
+            if (!IsDisposed)
+            {
+                done.Set();
+            }
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        void OnTileCacheStart()
         {
-            if (isMapReady)
+            Console.WriteLine("OnTileCacheStart");
+
+            if (!IsDisposed)
             {
-                isMapReady = false;
-                ResizeImage(gMapExport.ToImage(), this.exportWidth, this.exportHeight).Save(this.filename);
-                this.DialogResult = DialogResult.OK;
+                done.Reset();
+            }
+        }
+
+        void OnTileCacheProgress(int left)
+        {
+            Console.WriteLine(left + " tile to save...");
+        }
+
+        #endregion
+
+        void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            ResizeImage(gMapExport.ToImage(), this.exportWidth, this.exportHeight).Save(this.filename);
+
+            list.Clear();
+
+            GMaps.Instance.UseMemoryCache = true;
+            GMaps.Instance.CacheOnIdleRead = true;
+            GMaps.Instance.BoostCacheEngine = false;
+
+            worker.Dispose();
+
+            this.DialogResult = DialogResult.OK;
+        }
+
+        void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            Console.WriteLine("Fetching tile at zoom (" + gMapExport.Zoom + "): " + ((int)e.UserState).ToString() + " of " + all + ", complete: " + e.ProgressPercentage.ToString() + "%");
+            lblProgressInfo.Text = e.ProgressPercentage.ToString() + "%";
+        }
+
+        bool CacheTiles(int zoom, GPoint p)
+        {
+            foreach (var pr in gMapExport.MapProvider.Overlays)
+            {
+                Exception ex;
+                PureImage img;
+
+                // tile number inversion(BottomLeft -> TopLeft)
+                if (pr.InvertedAxisY)
+                {
+                    img = GMaps.Instance.GetImageFrom(pr, new GPoint(p.X, maxOfTiles.Height - p.Y), zoom, out ex);
+                }
+                else // ok
+                {
+                    img = GMaps.Instance.GetImageFrom(pr, p, zoom, out ex);
+                }
+
+                if (img != null)
+                {
+                    img.Dispose();
+                    img = null;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        void worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            if (list != null)
+            {
+                list.Clear();
+                list = null;
+            }
+            list = gMapExport.MapProvider.Projection.GetAreaTileList(gMapExport.ViewArea, (int)gMapExport.Zoom, 0);
+            maxOfTiles = gMapExport.MapProvider.Projection.GetTileMatrixMaxXY((int)gMapExport.Zoom);
+            all = list.Count;
+
+            int countOk = 0;
+            int retryCount = 0;
+
+            lock (this)
+            {
+                CachedTiles.Clear();
+            }
+
+            for (int i = 0; i < all; i++)
+            {
+                if (worker.CancellationPending)
+                    break;
+
+                GPoint p = list[i];
+                {
+                    if (CacheTiles((int)gMapExport.Zoom, p))
+                    {
+                        countOk++;
+                        retryCount = 0;
+                    }
+                    else
+                    {
+                        if (++retryCount <= 2) // retry only one
+                        {
+                            i--;
+                            System.Threading.Thread.Sleep(1234);
+                            continue;
+                        }
+                        else
+                        {
+                            retryCount = 0;
+                        }
+                    }
+                }
+
+                worker.ReportProgress((int)((i + 1) * 100 / all), i + 1);
+            }
+
+            e.Result = countOk;
+
+            if (!IsDisposed)
+            {
+                done.WaitOne();
+            }
+        }
+
+        public void StartPrefetch()
+        {
+            if (!worker.IsBusy)
+            {
+                GMaps.Instance.UseMemoryCache = false;
+                GMaps.Instance.CacheOnIdleRead = false;
+                GMaps.Instance.BoostCacheEngine = true;
+
+                worker.RunWorkerAsync();
             }
         }
     }
