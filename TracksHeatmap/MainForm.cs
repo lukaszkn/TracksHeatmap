@@ -76,6 +76,7 @@ namespace TracksHeatmap
         private void gMap_OnMapZoomChanged()
         {
             zoomLabel.Text = "Zoom: " + gMap.Zoom.ToString("F1");
+            UpdateExportZoom();
             LoadTracksToMap();
         }
 
@@ -154,6 +155,26 @@ namespace TracksHeatmap
                 double ratio = (double)gMap.Size.Height / gMap.Size.Width;
                 numExportHeight.Value = (int)(ratio * Convert.ToDouble(numExportWidth.Value));
             }
+
+            UpdateExportZoom();
+        }
+
+        private void UpdateExportZoom()
+        {
+            numExportZoom.Enabled = chkExportZoomOverride.Checked;
+
+            if (gMap.Zoom > 1)
+            {
+                if (chkAsVisible.Checked)
+                {
+                    numExportZoom.Value = (int)gMap.Zoom;
+                }
+                else if (!numExportZoom.Enabled)
+                {
+                    double zoom = gMap.Zoom + Math.Ceiling(Math.Sqrt(Convert.ToDouble(numExportWidth.Value) / gMap.Size.Width));
+                    numExportZoom.Value = (int)zoom;
+                }
+            }
         }
 
         private void btnTrackColor_Click(object sender, EventArgs e)
@@ -222,6 +243,7 @@ namespace TracksHeatmap
                     export.TracksOptimiserOptions = GetTrackOptions();
                     export.exportWidth = (int)numExportWidth.Value;
                     export.exportHeight = (int)numExportHeight.Value;
+                    export.exportZoom = Convert.ToInt32(numExportZoom.Value);
                     export.filename = saveFileDialog.FileName;
                     export.ShowDialog();
                 }

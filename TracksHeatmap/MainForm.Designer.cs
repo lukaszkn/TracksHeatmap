@@ -66,6 +66,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tabPagePlotOptions = new System.Windows.Forms.TabPage();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.numDisconnectTrackGaps = new System.Windows.Forms.NumericUpDown();
             this.chkDisconnectGapPoints = new System.Windows.Forms.CheckBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.numBakground2Width = new System.Windows.Forms.NumericUpDown();
@@ -80,9 +81,11 @@
             this.numTrackWidth = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
             this.tabPageStats = new System.Windows.Forms.TabPage();
-            this.txtInfo = new System.Windows.Forms.TextBox();
-            this.numDisconnectTrackGaps = new System.Windows.Forms.NumericUpDown();
             this.btnMoreStats = new System.Windows.Forms.Button();
+            this.txtInfo = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.numExportZoom = new System.Windows.Forms.NumericUpDown();
+            this.chkExportZoomOverride = new System.Windows.Forms.CheckBox();
             this.contextMenuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -99,6 +102,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numExportWidth)).BeginInit();
             this.tabPagePlotOptions.SuspendLayout();
             this.groupBox7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numDisconnectTrackGaps)).BeginInit();
             this.groupBox6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numBakground2Width)).BeginInit();
             this.groupBox5.SuspendLayout();
@@ -106,7 +110,7 @@
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numTrackWidth)).BeginInit();
             this.tabPageStats.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numDisconnectTrackGaps)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numExportZoom)).BeginInit();
             this.SuspendLayout();
             // 
             // gMap
@@ -385,6 +389,9 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.chkExportZoomOverride);
+            this.groupBox1.Controls.Add(this.numExportZoom);
+            this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Controls.Add(this.chkAsVisible);
             this.groupBox1.Controls.Add(this.btnExport);
             this.groupBox1.Controls.Add(this.label3);
@@ -396,7 +403,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(6, 301);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(206, 165);
+            this.groupBox1.Size = new System.Drawing.Size(206, 192);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Export";
@@ -414,7 +421,7 @@
             // 
             // btnExport
             // 
-            this.btnExport.Location = new System.Drawing.Point(9, 122);
+            this.btnExport.Location = new System.Drawing.Point(9, 151);
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(191, 23);
             this.btnExport.TabIndex = 9;
@@ -539,6 +546,24 @@
             this.groupBox7.TabIndex = 11;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Other";
+            // 
+            // numDisconnectTrackGaps
+            // 
+            this.numDisconnectTrackGaps.Location = new System.Drawing.Point(155, 18);
+            this.numDisconnectTrackGaps.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.numDisconnectTrackGaps.Name = "numDisconnectTrackGaps";
+            this.numDisconnectTrackGaps.Size = new System.Drawing.Size(39, 20);
+            this.numDisconnectTrackGaps.TabIndex = 1;
+            this.numDisconnectTrackGaps.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.numDisconnectTrackGaps.ValueChanged += new System.EventHandler(this.numTrackWidth_ValueChanged);
             // 
             // chkDisconnectGapPoints
             // 
@@ -744,6 +769,16 @@
             this.tabPageStats.Text = "Stats";
             this.tabPageStats.UseVisualStyleBackColor = true;
             // 
+            // btnMoreStats
+            // 
+            this.btnMoreStats.Location = new System.Drawing.Point(6, 6);
+            this.btnMoreStats.Name = "btnMoreStats";
+            this.btnMoreStats.Size = new System.Drawing.Size(204, 23);
+            this.btnMoreStats.TabIndex = 1;
+            this.btnMoreStats.Text = "More stats";
+            this.btnMoreStats.UseVisualStyleBackColor = true;
+            this.btnMoreStats.Click += new System.EventHandler(this.btnMoreStats_Click);
+            // 
             // txtInfo
             // 
             this.txtInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -756,33 +791,47 @@
             this.txtInfo.TabIndex = 0;
             this.txtInfo.Text = "Load tracks first...";
             // 
-            // numDisconnectTrackGaps
+            // label10
             // 
-            this.numDisconnectTrackGaps.Location = new System.Drawing.Point(155, 18);
-            this.numDisconnectTrackGaps.Maximum = new decimal(new int[] {
-            10,
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(10, 121);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(37, 13);
+            this.label10.TabIndex = 11;
+            this.label10.Text = "Zoom:";
+            // 
+            // numExportZoom
+            // 
+            this.numExportZoom.Location = new System.Drawing.Point(50, 119);
+            this.numExportZoom.Maximum = new decimal(new int[] {
+            20,
             0,
             0,
             0});
-            this.numDisconnectTrackGaps.Name = "numDisconnectTrackGaps";
-            this.numDisconnectTrackGaps.Size = new System.Drawing.Size(39, 20);
-            this.numDisconnectTrackGaps.TabIndex = 1;
-            this.numDisconnectTrackGaps.Value = new decimal(new int[] {
-            5,
+            this.numExportZoom.Minimum = new decimal(new int[] {
+            2,
             0,
             0,
             0});
-            this.numDisconnectTrackGaps.ValueChanged += new System.EventHandler(this.numTrackWidth_ValueChanged);
+            this.numExportZoom.Name = "numExportZoom";
+            this.numExportZoom.Size = new System.Drawing.Size(48, 20);
+            this.numExportZoom.TabIndex = 12;
+            this.numExportZoom.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
             // 
-            // btnMoreStats
+            // chkExportZoomOverride
             // 
-            this.btnMoreStats.Location = new System.Drawing.Point(6, 6);
-            this.btnMoreStats.Name = "btnMoreStats";
-            this.btnMoreStats.Size = new System.Drawing.Size(204, 23);
-            this.btnMoreStats.TabIndex = 1;
-            this.btnMoreStats.Text = "More stats";
-            this.btnMoreStats.UseVisualStyleBackColor = true;
-            this.btnMoreStats.Click += new System.EventHandler(this.btnMoreStats_Click);
+            this.chkExportZoomOverride.AutoSize = true;
+            this.chkExportZoomOverride.Location = new System.Drawing.Point(104, 121);
+            this.chkExportZoomOverride.Name = "chkExportZoomOverride";
+            this.chkExportZoomOverride.Size = new System.Drawing.Size(64, 17);
+            this.chkExportZoomOverride.TabIndex = 13;
+            this.chkExportZoomOverride.Text = "override";
+            this.chkExportZoomOverride.UseVisualStyleBackColor = true;
+            this.chkExportZoomOverride.CheckedChanged += new System.EventHandler(this.chkAsVisible_CheckedChanged);
             // 
             // MainForm
             // 
@@ -816,6 +865,7 @@
             this.tabPagePlotOptions.ResumeLayout(false);
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numDisconnectTrackGaps)).EndInit();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numBakground2Width)).EndInit();
@@ -827,7 +877,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numTrackWidth)).EndInit();
             this.tabPageStats.ResumeLayout(false);
             this.tabPageStats.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numDisconnectTrackGaps)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numExportZoom)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -888,6 +938,9 @@
         private System.Windows.Forms.CheckBox chkDisconnectGapPoints;
         private System.Windows.Forms.NumericUpDown numDisconnectTrackGaps;
         private System.Windows.Forms.Button btnMoreStats;
+        private System.Windows.Forms.CheckBox chkExportZoomOverride;
+        private System.Windows.Forms.NumericUpDown numExportZoom;
+        private System.Windows.Forms.Label label10;
     }
 }
 

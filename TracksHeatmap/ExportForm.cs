@@ -23,6 +23,7 @@ namespace TracksHeatmap
         public int exportHeight;
         public string filename;
         public TracksOptimiserOptions TracksOptimiserOptions;
+        public int exportZoom = 12;
 
         BackgroundWorker worker = new BackgroundWorker();
         List<GPoint> list;
@@ -48,15 +49,14 @@ namespace TracksHeatmap
 
         private void ExportForm_Load(object sender, EventArgs e)
         {
-            double zoom = gmap.Zoom + Math.Ceiling(Math.Sqrt((double)exportWidth / gmap.Size.Width));
-            gMapExport.Zoom = (int)zoom;
+            gMapExport.Zoom = exportZoom;
 
             int ratio = Convert.ToInt32(Math.Pow(2, gMapExport.Zoom - gmap.Zoom));
 
             gMapExport.Size = new Size(gmap.Size.Width * ratio, gmap.Size.Height * ratio);
 
             TracksOptimiser tracksOptimiser = new TracksOptimiser();
-            tracksOptimiser.ZoomRatio = Math.Round(zoom - gmap.Zoom, 1);
+            tracksOptimiser.ZoomRatio = Math.Round(exportZoom - gmap.Zoom, 1);
             tracksOptimiser.Run(gMapExport, this.Tracks, this.TracksOptimiserOptions);
 
             gMapExport.Position = gmap.Position;
