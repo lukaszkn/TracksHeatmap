@@ -1,9 +1,11 @@
 ﻿using Geo.Geodesy;
+using Geo.Gps;
 using Geo.Gps.Metadata;
 using Geo.Gps.Serialization;
 using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
+using GMap.NET.WindowsForms.Markers;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -25,6 +27,7 @@ namespace TracksHeatmap
     {
         private List<GMapProvider> mapTypes = new List<GMapProvider>();
         private List<Geo.Gps.Track> Tracks;
+        private TracksAnimator tracksAnimator;
 
         public MainForm()
         {
@@ -40,9 +43,11 @@ namespace TracksHeatmap
             AppSettingsSection appSettings = (AppSettingsSection)config.GetSection("System.Windows.Forms.ApplicationConfigurationSection");
             var dpiAware = appSettings.Settings["DpiAwareness"].Value;
 
-            appSettings.Settings["DpiAwareness"].Value = "PerMonitorV2";
+            lblDpiAware.Text = "Dpi awareness: " + dpiAware;
+
+            //appSettings.Settings["DpiAwareness"].Value = "PerMonitorV2";
             //appSettings.Settings["DpiAwareness"].Value = "unaware";
-            config.Save();
+            //config.Save();
 
 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -66,6 +71,7 @@ namespace TracksHeatmap
             mapTypes.Add(GMapProviders.OpenCycleLandscapeMap);
             mapTypes.Add(GMapProviders.OpenStreet4UMap);
             mapTypes.Add(GMapProviders.OpenStreetMap);
+            mapTypes.Add(GMapProviders.OpenStreetMapGraphHopper);
             mapTypes.Add(GMapProviders.YandexMap);
             mapTypes.Add(GMapProviders.WikiMapiaMap);
             mapTypes.Add(GMapProviders.UMPMap);
@@ -432,6 +438,43 @@ namespace TracksHeatmap
             }
 
             MessageBox.Show("done.");
+        }
+
+        private void timerAnimation_Tick(object sender, EventArgs e)
+        {
+            timerAnimation.Enabled = false;
+            if (tracksAnimator.AnimationStep(this.gMap))
+            {
+                lblAnimationInfo.Text = "Track points left: " + tracksAnimator.Progress;
+                timerAnimation.Enabled = true;
+            }
+            else
+            {
+                lblAnimationInfo.Text = "Track points left: done";
+                btnAnimateSingle.Enabled = true;
+            }
+        }
+
+        private void btnAnimateSingle_Click(object sender, EventArgs e)
+        {
+            btnAnimateSingle.Enabled = false;
+            this.tracksAnimator = new TracksAnimator(GetTrackOptions());
+            List<Fix> fixes = tracksAnimator.InitAnimation(this.gMap, this.Tracks, Convert.ToInt32(this.upDownAnimationStep.Value), chkAnimationDrawMarkers.Checked);
+
+            timerAnimation.Enabled = true;
+        }
+
+        private void cmbDpiAwareness_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+            // Get the appSettings section.
+            AppSettingsSection appSettings = (AppSettingsSection)config.GetSection("System.Windows.Forms.ApplicationConfigurationSection");
+            var dpiAware = appSettings.Settings["DpiAwareness"].Value;
+
+            appSettings.Settings["DpiAwareness"].Value = cmbDpiAwareness.SelectedItem.ToString();
+
+            config.Save();
         }
     }
 }

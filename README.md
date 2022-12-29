@@ -17,3 +17,8 @@ Use <a href="https://tapiriik.com">tapiriik.com<a/> to export your tracks from E
 ***
 
 ![](../master/Images/TracksHeatmap2.png)
+
+***
+Single track animation, see Tools tab
+
+![](../master/Images/map_test.gif)

@@ -39,6 +39,7 @@
             this.zoomLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblMapPoints = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblSelectedRoute = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblDpiAware = new System.Windows.Forms.ToolStripStatusLabel();
             this.btnZoomIn = new System.Windows.Forms.Button();
             this.btnZoomOut = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -87,7 +88,17 @@
             this.btnMoreStats = new System.Windows.Forms.Button();
             this.txtInfo = new System.Windows.Forms.TextBox();
             this.tabPageTools = new System.Windows.Forms.TabPage();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.chkAnimationDrawMarkers = new System.Windows.Forms.CheckBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.upDownAnimationStep = new System.Windows.Forms.NumericUpDown();
+            this.lblAnimationInfo = new System.Windows.Forms.Label();
+            this.btnAnimateSingle = new System.Windows.Forms.Button();
             this.btnSaveAllAsOne = new System.Windows.Forms.Button();
+            this.timerAnimation = new System.Windows.Forms.Timer(this.components);
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.cmbDpiAwareness = new System.Windows.Forms.ComboBox();
+            this.label11 = new System.Windows.Forms.Label();
             this.contextMenuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -114,6 +125,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.numTrackWidth)).BeginInit();
             this.tabPageStats.SuspendLayout();
             this.tabPageTools.SuspendLayout();
+            this.groupBox8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.upDownAnimationStep)).BeginInit();
+            this.groupBox9.SuspendLayout();
             this.SuspendLayout();
             // 
             // gMap
@@ -191,7 +205,8 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.zoomLabel,
             this.lblMapPoints,
-            this.lblSelectedRoute});
+            this.lblSelectedRoute,
+            this.lblDpiAware});
             this.statusStrip1.Location = new System.Drawing.Point(0, 1150);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(2, 0, 28, 0);
@@ -220,6 +235,12 @@
             this.lblSelectedRoute.Name = "lblSelectedRoute";
             this.lblSelectedRoute.Padding = new System.Windows.Forms.Padding(0, 0, 20, 0);
             this.lblSelectedRoute.Size = new System.Drawing.Size(20, 32);
+            // 
+            // lblDpiAware
+            // 
+            this.lblDpiAware.Name = "lblDpiAware";
+            this.lblDpiAware.Size = new System.Drawing.Size(118, 32);
+            this.lblDpiAware.Text = "dpi aware";
             // 
             // btnZoomIn
             // 
@@ -896,6 +917,8 @@
             // 
             // tabPageTools
             // 
+            this.tabPageTools.Controls.Add(this.groupBox9);
+            this.tabPageTools.Controls.Add(this.groupBox8);
             this.tabPageTools.Controls.Add(this.btnSaveAllAsOne);
             this.tabPageTools.Location = new System.Drawing.Point(8, 39);
             this.tabPageTools.Name = "tabPageTools";
@@ -903,6 +926,91 @@
             this.tabPageTools.TabIndex = 3;
             this.tabPageTools.Text = "Tools";
             this.tabPageTools.UseVisualStyleBackColor = true;
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox8.Controls.Add(this.chkAnimationDrawMarkers);
+            this.groupBox8.Controls.Add(this.label12);
+            this.groupBox8.Controls.Add(this.upDownAnimationStep);
+            this.groupBox8.Controls.Add(this.lblAnimationInfo);
+            this.groupBox8.Controls.Add(this.btnAnimateSingle);
+            this.groupBox8.Location = new System.Drawing.Point(16, 97);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(401, 293);
+            this.groupBox8.TabIndex = 1;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "Animate single track";
+            // 
+            // chkAnimationDrawMarkers
+            // 
+            this.chkAnimationDrawMarkers.AutoSize = true;
+            this.chkAnimationDrawMarkers.Checked = true;
+            this.chkAnimationDrawMarkers.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkAnimationDrawMarkers.Location = new System.Drawing.Point(16, 85);
+            this.chkAnimationDrawMarkers.Name = "chkAnimationDrawMarkers";
+            this.chkAnimationDrawMarkers.Size = new System.Drawing.Size(173, 29);
+            this.chkAnimationDrawMarkers.TabIndex = 6;
+            this.chkAnimationDrawMarkers.Text = "draw markers";
+            this.chkAnimationDrawMarkers.UseVisualStyleBackColor = true;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(11, 36);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(154, 25);
+            this.label12.TabIndex = 5;
+            this.label12.Text = "Animation step";
+            // 
+            // upDownAnimationStep
+            // 
+            this.upDownAnimationStep.Increment = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.upDownAnimationStep.Location = new System.Drawing.Point(171, 36);
+            this.upDownAnimationStep.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.upDownAnimationStep.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.upDownAnimationStep.Name = "upDownAnimationStep";
+            this.upDownAnimationStep.Size = new System.Drawing.Size(120, 31);
+            this.upDownAnimationStep.TabIndex = 4;
+            this.upDownAnimationStep.Value = new decimal(new int[] {
+            200,
+            0,
+            0,
+            0});
+            // 
+            // lblAnimationInfo
+            // 
+            this.lblAnimationInfo.AutoSize = true;
+            this.lblAnimationInfo.Location = new System.Drawing.Point(11, 246);
+            this.lblAnimationInfo.Name = "lblAnimationInfo";
+            this.lblAnimationInfo.Size = new System.Drawing.Size(207, 25);
+            this.lblAnimationInfo.TabIndex = 3;
+            this.lblAnimationInfo.Text = "Track points left: n/a";
+            // 
+            // btnAnimateSingle
+            // 
+            this.btnAnimateSingle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAnimateSingle.Location = new System.Drawing.Point(16, 174);
+            this.btnAnimateSingle.Name = "btnAnimateSingle";
+            this.btnAnimateSingle.Size = new System.Drawing.Size(363, 53);
+            this.btnAnimateSingle.TabIndex = 2;
+            this.btnAnimateSingle.Text = "Save animation";
+            this.btnAnimateSingle.UseVisualStyleBackColor = true;
+            this.btnAnimateSingle.Click += new System.EventHandler(this.btnAnimateSingle_Click);
             // 
             // btnSaveAllAsOne
             // 
@@ -915,6 +1023,47 @@
             this.btnSaveAllAsOne.Text = "Save all tracks as one .gpx";
             this.btnSaveAllAsOne.UseVisualStyleBackColor = true;
             this.btnSaveAllAsOne.Click += new System.EventHandler(this.btnSaveAllAsOne_Click);
+            // 
+            // timerAnimation
+            // 
+            this.timerAnimation.Tick += new System.EventHandler(this.timerAnimation_Tick);
+            // 
+            // groupBox9
+            // 
+            this.groupBox9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox9.Controls.Add(this.label11);
+            this.groupBox9.Controls.Add(this.cmbDpiAwareness);
+            this.groupBox9.Location = new System.Drawing.Point(16, 419);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(401, 144);
+            this.groupBox9.TabIndex = 2;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "Dpi awareness";
+            // 
+            // cmbDpiAwareness
+            // 
+            this.cmbDpiAwareness.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbDpiAwareness.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbDpiAwareness.FormattingEnabled = true;
+            this.cmbDpiAwareness.Items.AddRange(new object[] {
+            "PerMonitorV2",
+            "unaware"});
+            this.cmbDpiAwareness.Location = new System.Drawing.Point(16, 45);
+            this.cmbDpiAwareness.Name = "cmbDpiAwareness";
+            this.cmbDpiAwareness.Size = new System.Drawing.Size(288, 33);
+            this.cmbDpiAwareness.TabIndex = 0;
+            this.cmbDpiAwareness.SelectedIndexChanged += new System.EventHandler(this.cmbDpiAwareness_SelectedIndexChanged);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(11, 98);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(274, 25);
+            this.label11.TabIndex = 1;
+            this.label11.Text = "Change and restart the app";
             // 
             // MainForm
             // 
@@ -964,6 +1113,11 @@
             this.tabPageStats.ResumeLayout(false);
             this.tabPageStats.PerformLayout();
             this.tabPageTools.ResumeLayout(false);
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.upDownAnimationStep)).EndInit();
+            this.groupBox9.ResumeLayout(false);
+            this.groupBox9.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1029,6 +1183,17 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TabPage tabPageTools;
         private System.Windows.Forms.Button btnSaveAllAsOne;
+        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.Button btnAnimateSingle;
+        private System.Windows.Forms.Timer timerAnimation;
+        private System.Windows.Forms.Label lblAnimationInfo;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.NumericUpDown upDownAnimationStep;
+        private System.Windows.Forms.CheckBox chkAnimationDrawMarkers;
+        private System.Windows.Forms.ToolStripStatusLabel lblDpiAware;
+        private System.Windows.Forms.GroupBox groupBox9;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.ComboBox cmbDpiAwareness;
     }
 }
 

@@ -135,6 +135,7 @@
     <Compile Include="StatsForm.Designer.cs">
       <DependentUpon>StatsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="TracksAnimator.cs" />
     <Compile Include="TracksOptimiser.cs" />
     <EmbeddedResource Include="ExportForm.resx">
       <DependentUpon>ExportForm.cs</DependentUpon>
