@@ -174,7 +174,7 @@
             this.gMapTracksBrowser.EmptyTileColor = System.Drawing.Color.Navy;
             this.gMapTracksBrowser.GrayScaleMode = false;
             this.gMapTracksBrowser.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
-            this.gMapTracksBrowser.LevelsKeepInMemmory = 5;
+            //this.gMapTracksBrowser.LevelsKeepInMemmory = 5;
             this.gMapTracksBrowser.Location = new System.Drawing.Point(0, 0);
             this.gMapTracksBrowser.MarkersEnabled = true;
             this.gMapTracksBrowser.MaxZoom = 18;

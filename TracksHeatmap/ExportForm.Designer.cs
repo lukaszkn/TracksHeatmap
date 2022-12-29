@@ -42,7 +42,7 @@
             this.gMapExport.EmptyTileColor = System.Drawing.Color.Navy;
             this.gMapExport.GrayScaleMode = false;
             this.gMapExport.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
-            this.gMapExport.LevelsKeepInMemmory = 5;
+            //this.gMapExport.LevelsKeepInMemmory = 5;
             this.gMapExport.Location = new System.Drawing.Point(0, 0);
             this.gMapExport.MarkersEnabled = true;
             this.gMapExport.MaxZoom = 30;

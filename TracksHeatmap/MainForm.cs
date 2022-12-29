@@ -1,10 +1,14 @@
-﻿using Geo.Gps.Serialization;
+﻿using Geo.Geodesy;
+using Geo.Gps.Metadata;
+using Geo.Gps.Serialization;
 using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
@@ -25,7 +29,28 @@ namespace TracksHeatmap
         public MainForm()
         {
             InitializeComponent();
-            
+
+
+            //var section = ConfigurationManager.GetSection("System.Windows.Forms.ApplicationConfigurationSection") as NameValueCollection;
+            //var value = section["DpiAwareness"];
+
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+            // Get the appSettings section.
+            AppSettingsSection appSettings = (AppSettingsSection)config.GetSection("System.Windows.Forms.ApplicationConfigurationSection");
+            var dpiAware = appSettings.Settings["DpiAwareness"].Value;
+
+            appSettings.Settings["DpiAwareness"].Value = "PerMonitorV2";
+            //appSettings.Settings["DpiAwareness"].Value = "unaware";
+            config.Save();
+
+
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+
+            splitContainer1.Panel2MinSize = groupBox2.Width + 2 * groupBox2.Left;
+            MainForm_Resize(null, EventArgs.Empty);
+
             mapTypes.Add(GMapProviders.ArcGIS_World_Topo_Map);
             mapTypes.Add(GMapProviders.ArcGIS_World_Street_Map);
             mapTypes.Add(GMapProviders.ArcGIS_StreetMap_World_2D_Map);
@@ -33,6 +58,9 @@ namespace TracksHeatmap
             mapTypes.Add(GMapProviders.GoogleMap);
             mapTypes.Add(GMapProviders.GoogleHybridMap);
             mapTypes.Add(GMapProviders.GoogleTerrainMap);
+            mapTypes.Add(GMapProviders.GoogleSatelliteMap);
+            mapTypes.Add(GMapProviders.CzechMap);
+            mapTypes.Add(GMapProviders.CzechTuristMap);
             mapTypes.Add(GMapProviders.OpenCycleMap);
             mapTypes.Add(GMapProviders.OpenCycleTransportMap);
             mapTypes.Add(GMapProviders.OpenCycleLandscapeMap);
@@ -44,7 +72,7 @@ namespace TracksHeatmap
 
             foreach (GMapProvider mapType in mapTypes)
             {
-                cmbMapType.Items.Add(mapType.ToString());
+                cmbMapType.Items.Add(GetMapName(mapType));
             }
 
             var tracksStyles = Enum.GetValues(typeof(TracksStyles)).Cast<TracksStyles>();
@@ -60,17 +88,25 @@ namespace TracksHeatmap
             this.btnTrackColor.ForeColor = Color.FromArgb(255, 255, 3, 18);
         }
 
+        private string GetMapName(GMapProvider mapType)
+        {
+            if (mapType == GMapProviders.CzechMap) return "Mapy.cz";
+            else if (mapType == GMapProviders.CzechTuristMap) return "Mapy.cz turist";
+
+            return mapType.ToString();
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
             chkKeepAspectRatio.Checked = true;
             chkAsVisible.Checked = true;
             menuTrackName.Visible = false;
 
+            cmbMapType.SelectedIndex = mapTypes.IndexOf(GMapProviders.CzechMap);
+
             gMap.DragButton = MouseButtons.Left;
             gMap.Position = new PointLatLng(50.059721, 22.4930113);
             gMap.Zoom = 12;
-
-            cmbMapType.SelectedIndex = mapTypes.IndexOf(GMapProviders.OpenStreetMap);
         }
 
         private void gMap_OnMapZoomChanged()
@@ -342,6 +378,60 @@ namespace TracksHeatmap
             statsForm.TracksOptimiserOptions = GetTrackOptions();
             statsForm.MapProvider = gMap.MapProvider;
             statsForm.ShowDialog();
+        }
+
+        private void MainForm_Resize(object sender, EventArgs e)
+        {
+            int width = splitContainer1.Width - splitContainer1.Panel2MinSize;
+            if (width > splitContainer1.Panel1MinSize)
+            {
+                splitContainer1.SplitterDistance = width;
+            }
+        }
+
+        private void btnSaveAllAsOne_Click(object sender, EventArgs e)
+        {
+            string lineBreak = string.Empty;// Environment.NewLine;
+            int count = 0;
+            SpheroidCalculator spheroidCalculator = new SpheroidCalculator();
+
+            using (TextWriter file = new StreamWriter(@"C:\Users\lynnx\Desktop\all.gpx", false))
+            {
+                file.Write("<?xml version=\"1.0\" encoding=\"UTF-8\"?><gpx xmlns=\"http://www.topografix.com/GPX/1/1\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" version=\"1.1\" xsi:schemaLocation=\"http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd\" creator=\"TracksHeatmap\">" + lineBreak);
+
+                foreach (var track in this.Tracks)
+                {
+                    file.Write("<trk><name>" + track.GetFirstFix().TimeUtc.ToString("yyyy-MM-dd") + " " + track.Metadata["name"] + "</name>" + lineBreak);
+
+                    foreach (var segment in track.Segments)
+                    {
+                        file.Write("<trkseg>" + lineBreak);
+
+                        Geo.Gps.Fix lastPoint = null;
+                        foreach (var point in segment.Fixes)
+                        {
+                            if (lastPoint != null && Math.Abs(spheroidCalculator.CalculateLength(new Geo.CoordinateSequence(lastPoint.Coordinate, point.Coordinate)).SiValue) < 200)
+                            {
+                                continue;
+                            }
+
+                            file.Write("<trkpt lat=\"" + point.Coordinate.Latitude.ToString("F6") + "\" lon=\"" + point.Coordinate.Longitude.ToString("F6") + "\">" + lineBreak);
+                            file.Write("<time>" + point.TimeUtc.ToString("yyyy-MM-ddTHH:mm:ssZ") + "</time>" + lineBreak);
+                            file.Write("</trkpt>" + lineBreak);
+                            lastPoint = point;
+                        }
+
+                        file.Write("</trkseg>" + lineBreak);
+                    }
+                    file.Write("</trk>" + lineBreak);
+                    count++;
+                    //if (count > 500) break;
+                }
+
+                file.Write("</gpx>" + lineBreak);
+            }
+
+            MessageBox.Show("done.");
         }
     }
 }
