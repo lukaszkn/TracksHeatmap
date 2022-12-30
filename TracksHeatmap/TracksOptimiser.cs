@@ -34,6 +34,7 @@ namespace TracksHeatmap
             }
 
             double minimimDistance = minPixels /* at least 3 pixels */ * gMap.ViewArea.WidthLng / gMap.Size.Width;
+            minimimDistance /= options.MultiplyPointDensity;
             int oldCount = 0, newCount = 0;
             GMapOverlay tracksPolygonsOverlay = FindOverlay(Constants.TracksPolygonsId, gMap);
             GMapOverlay tracksPolygons2Overlay = FindOverlay(Constants.TracksPolygons2Id, gMap);
@@ -193,5 +194,6 @@ namespace TracksHeatmap
         public double TrackBackground2Width = 7;
         public bool DisconnectGapPoints = true;
         public double DisconnectTrackGapsMultiple = 4;
+        public double MultiplyPointDensity = 1; // e.g. for animation
     }
 }

@@ -88,6 +88,9 @@
             this.btnMoreStats = new System.Windows.Forms.Button();
             this.txtInfo = new System.Windows.Forms.TextBox();
             this.tabPageTools = new System.Windows.Forms.TabPage();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.cmbDpiAwareness = new System.Windows.Forms.ComboBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.chkAnimationDrawMarkers = new System.Windows.Forms.CheckBox();
             this.label12 = new System.Windows.Forms.Label();
@@ -96,9 +99,7 @@
             this.btnAnimateSingle = new System.Windows.Forms.Button();
             this.btnSaveAllAsOne = new System.Windows.Forms.Button();
             this.timerAnimation = new System.Windows.Forms.Timer(this.components);
-            this.groupBox9 = new System.Windows.Forms.GroupBox();
-            this.cmbDpiAwareness = new System.Windows.Forms.ComboBox();
-            this.label11 = new System.Windows.Forms.Label();
+            this.chkIncreasePointsDensity = new System.Windows.Forms.CheckBox();
             this.contextMenuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -125,9 +126,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.numTrackWidth)).BeginInit();
             this.tabPageStats.SuspendLayout();
             this.tabPageTools.SuspendLayout();
+            this.groupBox9.SuspendLayout();
             this.groupBox8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.upDownAnimationStep)).BeginInit();
-            this.groupBox9.SuspendLayout();
             this.SuspendLayout();
             // 
             // gMap
@@ -927,10 +928,48 @@
             this.tabPageTools.Text = "Tools";
             this.tabPageTools.UseVisualStyleBackColor = true;
             // 
+            // groupBox9
+            // 
+            this.groupBox9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox9.Controls.Add(this.label11);
+            this.groupBox9.Controls.Add(this.cmbDpiAwareness);
+            this.groupBox9.Location = new System.Drawing.Point(16, 419);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(401, 144);
+            this.groupBox9.TabIndex = 2;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "Dpi awareness";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(11, 98);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(274, 25);
+            this.label11.TabIndex = 1;
+            this.label11.Text = "Change and restart the app";
+            // 
+            // cmbDpiAwareness
+            // 
+            this.cmbDpiAwareness.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbDpiAwareness.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbDpiAwareness.FormattingEnabled = true;
+            this.cmbDpiAwareness.Items.AddRange(new object[] {
+            "PerMonitorV2",
+            "unaware"});
+            this.cmbDpiAwareness.Location = new System.Drawing.Point(16, 45);
+            this.cmbDpiAwareness.Name = "cmbDpiAwareness";
+            this.cmbDpiAwareness.Size = new System.Drawing.Size(288, 33);
+            this.cmbDpiAwareness.TabIndex = 0;
+            this.cmbDpiAwareness.SelectedIndexChanged += new System.EventHandler(this.cmbDpiAwareness_SelectedIndexChanged);
+            // 
             // groupBox8
             // 
             this.groupBox8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox8.Controls.Add(this.chkIncreasePointsDensity);
             this.groupBox8.Controls.Add(this.chkAnimationDrawMarkers);
             this.groupBox8.Controls.Add(this.label12);
             this.groupBox8.Controls.Add(this.upDownAnimationStep);
@@ -1008,7 +1047,7 @@
             this.btnAnimateSingle.Name = "btnAnimateSingle";
             this.btnAnimateSingle.Size = new System.Drawing.Size(363, 53);
             this.btnAnimateSingle.TabIndex = 2;
-            this.btnAnimateSingle.Text = "Save animation";
+            this.btnAnimateSingle.Text = "Save image sequence";
             this.btnAnimateSingle.UseVisualStyleBackColor = true;
             this.btnAnimateSingle.Click += new System.EventHandler(this.btnAnimateSingle_Click);
             // 
@@ -1028,42 +1067,15 @@
             // 
             this.timerAnimation.Tick += new System.EventHandler(this.timerAnimation_Tick);
             // 
-            // groupBox9
+            // chkIncreasePointsDensity
             // 
-            this.groupBox9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox9.Controls.Add(this.label11);
-            this.groupBox9.Controls.Add(this.cmbDpiAwareness);
-            this.groupBox9.Location = new System.Drawing.Point(16, 419);
-            this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(401, 144);
-            this.groupBox9.TabIndex = 2;
-            this.groupBox9.TabStop = false;
-            this.groupBox9.Text = "Dpi awareness";
-            // 
-            // cmbDpiAwareness
-            // 
-            this.cmbDpiAwareness.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cmbDpiAwareness.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbDpiAwareness.FormattingEnabled = true;
-            this.cmbDpiAwareness.Items.AddRange(new object[] {
-            "PerMonitorV2",
-            "unaware"});
-            this.cmbDpiAwareness.Location = new System.Drawing.Point(16, 45);
-            this.cmbDpiAwareness.Name = "cmbDpiAwareness";
-            this.cmbDpiAwareness.Size = new System.Drawing.Size(288, 33);
-            this.cmbDpiAwareness.TabIndex = 0;
-            this.cmbDpiAwareness.SelectedIndexChanged += new System.EventHandler(this.cmbDpiAwareness_SelectedIndexChanged);
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(11, 98);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(274, 25);
-            this.label11.TabIndex = 1;
-            this.label11.Text = "Change and restart the app";
+            this.chkIncreasePointsDensity.AutoSize = true;
+            this.chkIncreasePointsDensity.Location = new System.Drawing.Point(16, 124);
+            this.chkIncreasePointsDensity.Name = "chkIncreasePointsDensity";
+            this.chkIncreasePointsDensity.Size = new System.Drawing.Size(318, 29);
+            this.chkIncreasePointsDensity.TabIndex = 7;
+            this.chkIncreasePointsDensity.Text = "increase track points density";
+            this.chkIncreasePointsDensity.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -1113,11 +1125,11 @@
             this.tabPageStats.ResumeLayout(false);
             this.tabPageStats.PerformLayout();
             this.tabPageTools.ResumeLayout(false);
+            this.groupBox9.ResumeLayout(false);
+            this.groupBox9.PerformLayout();
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.upDownAnimationStep)).EndInit();
-            this.groupBox9.ResumeLayout(false);
-            this.groupBox9.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1194,6 +1206,7 @@
         private System.Windows.Forms.GroupBox groupBox9;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.ComboBox cmbDpiAwareness;
+        private System.Windows.Forms.CheckBox chkIncreasePointsDensity;
     }
 }
 

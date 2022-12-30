@@ -20,9 +20,13 @@ namespace TracksHeatmap
         private string outImagesFolder;
         private int imageStep = 0;
         private Geo.Gps.Fix lastPoint = null;
+        private PointLatLng lastPointLatLng = PointLatLng.Empty;
         private int upDownAnimationStep = 200;
         private GMapOverlay tracksMarkersOverlay;
         private bool drawMarkers = true;
+        GMapOverlay tracksPolygonsOverlay;
+        GMapOverlay tracksPolygons2Overlay;
+        GMapOverlay tracksPolygons3Overlay;
 
         public int Progress;
 
@@ -31,8 +35,9 @@ namespace TracksHeatmap
             this.tracksOptimiserOptions = tracksOptimiserOptions;
         }
 
-        public List<Fix> InitAnimation(GMapControl gMap, List<Geo.Gps.Track> tracks, int upDownAnimationStep, bool drawMarkers)
+        public List<Fix> InitAnimation(GMapControl gMap, List<Geo.Gps.Track> tracks, int upDownAnimationStep, bool drawMarkers, bool increasePointsDensity)
         {
+            this.upDownAnimationStep = upDownAnimationStep;
             outImagesFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\TracksAnimator";
             if (!Directory.Exists(outImagesFolder))
                 Directory.CreateDirectory(outImagesFolder);
@@ -51,6 +56,18 @@ namespace TracksHeatmap
             track = tracks[0];
             fixes.Add(track.GetFirstFix());
             fixes.Add(track.GetLastFix());
+
+            TracksOptimiser tracksOptimiser = new TracksOptimiser();
+            if (increasePointsDensity)
+            {
+                tracksOptimiserOptions.MultiplyPointDensity = 2;
+            }
+            tracksOptimiser.Run(gMap, new List<Geo.Gps.Track> { track }, tracksOptimiserOptions);
+            tracksOptimiserOptions.MultiplyPointDensity = 1;
+
+            tracksPolygonsOverlay = FindOverlay(Constants.TracksPolygonsId, gMap);
+            tracksPolygons2Overlay = FindOverlay(Constants.TracksPolygons2Id, gMap);
+            tracksPolygons3Overlay = FindOverlay(Constants.TracksPolygons3Id, gMap);
 
             if (drawMarkers)
             {
@@ -74,7 +91,6 @@ namespace TracksHeatmap
 
                 markerCurrent.IsVisible = true;
                 tracksMarkersOverlay.Markers.RemoveAt(2);
-                //markerEnd.IsVisible = false;
             }
 
             return fixes;
@@ -89,17 +105,17 @@ namespace TracksHeatmap
 
         public bool AnimationStep(GMapControl gMap)
         {
-            if (TruncateTrack())
-            { 
-                TracksOptimiser tracksOptimiser = new TracksOptimiser();
-                tracksOptimiser.Run(gMap, new List<Geo.Gps.Track> { track }, tracksOptimiserOptions);
+            if (TruncateTrack(gMap))
+            {
+                GMapOverlay tracksPolygonsOverlay = FindOverlay(Constants.TracksPolygonsId, gMap);
+                GMapRoute route = tracksPolygonsOverlay.Routes[0];
 
                 if (drawMarkers)
                 {
-                    tracksMarkersOverlay.Markers[1].Position = new PointLatLng(track.GetLastFix().Coordinate.Latitude, track.GetLastFix().Coordinate.Longitude);
+                    tracksMarkersOverlay.Markers[1].Position = route.Points.Last();
                 }
 
-                Progress = track.GetAllFixes().Count();
+                Progress = route.Points.Count;
                 gMap.Refresh();
 
                 SaveFrame(gMap);
@@ -116,27 +132,54 @@ namespace TracksHeatmap
             }
         }
 
-        private bool TruncateTrack()
+        private bool TruncateTrack(GMapControl gMap)
         {
-            SpheroidCalculator spheroidCalculator = new SpheroidCalculator();
-            for (int segmentIndex = track.Segments.Count - 1; segmentIndex >= 0; segmentIndex--)
-            {
-                var segment = track.Segments[segmentIndex];
-                for (int pointIndex = segment.Fixes.Count - 1; pointIndex >= 0; pointIndex--)
-                {
-                    var point = segment.Fixes[pointIndex];
-                    if (lastPoint != null && Math.Abs(spheroidCalculator.CalculateLength(new Geo.CoordinateSequence(lastPoint.Coordinate, point.Coordinate)).SiValue) < upDownAnimationStep)
-                    {
-                        segment.Fixes.RemoveAt(pointIndex);
-                        continue;
-                    }
+            MakeOverlaysVisible(false);
+            GMapRoute route = tracksPolygonsOverlay.Routes[0];
 
-                    lastPoint = point;
-                    return true;
+            SpheroidCalculator spheroidCalculator = new SpheroidCalculator();
+            for (int pointIndex = route.Points.Count - 1; pointIndex >= 0; pointIndex--)
+            {
+                var point = route.Points[pointIndex];
+
+                Geo.Coordinate point1 = new Fix(lastPointLatLng.Lat, lastPointLatLng.Lng, DateTime.Now).Coordinate;
+                Geo.Coordinate point2 = new Fix(point.Lat, point.Lng, DateTime.Now).Coordinate;
+
+                if (!lastPointLatLng.IsEmpty && Math.Abs(spheroidCalculator.CalculateLength(new Geo.CoordinateSequence(point1, point2)).SiValue) < upDownAnimationStep)
+                {
+                    RemovePoint(route, pointIndex);
+                    if (tracksPolygons2Overlay.Routes.Count > 0)
+                    {
+                        RemovePoint(tracksPolygons2Overlay.Routes[0], pointIndex);
+                    }
+                    if (tracksPolygons3Overlay.Routes.Count > 0)
+                    {
+                        RemovePoint(tracksPolygons3Overlay.Routes[0], pointIndex);
+                    }
+                    continue;
                 }
+
+                lastPointLatLng = point;
+
+                MakeOverlaysVisible(true);
+                return true;
             }
 
+            MakeOverlaysVisible(true);
             return false;
+        }
+
+        private void MakeOverlaysVisible(bool visible)
+        {
+            tracksPolygonsOverlay.IsVisibile = visible;
+            tracksPolygons2Overlay.IsVisibile = visible;
+            tracksPolygons3Overlay.IsVisibile = visible;
+        }
+
+        private void RemovePoint(GMapRoute route, int pointIndex)
+        {
+            route.Points.RemoveAt(pointIndex);
+            route.LocalPoints.RemoveAt(pointIndex);
         }
 
         public static GMapOverlay FindOverlay(string overlayId, GMapControl gMap)

@@ -459,7 +459,7 @@ namespace TracksHeatmap
         {
             btnAnimateSingle.Enabled = false;
             this.tracksAnimator = new TracksAnimator(GetTrackOptions());
-            List<Fix> fixes = tracksAnimator.InitAnimation(this.gMap, this.Tracks, Convert.ToInt32(this.upDownAnimationStep.Value), chkAnimationDrawMarkers.Checked);
+            List<Fix> fixes = tracksAnimator.InitAnimation(this.gMap, this.Tracks, Convert.ToInt32(this.upDownAnimationStep.Value), chkAnimationDrawMarkers.Checked, chkIncreasePointsDensity.Checked);
 
             timerAnimation.Enabled = true;
         }
