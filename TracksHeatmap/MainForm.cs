@@ -344,7 +344,7 @@ namespace TracksHeatmap
             colorDialog.Color = btnTrackBakground.BackColor;
             if (colorDialog.ShowDialog() == DialogResult.OK)
             {
-                btnTrackBakground.ForeColor = colorDialog.Color;
+                btnTrackBakground.BackColor = colorDialog.Color;
                 numTrackWidth_ValueChanged(sender, e);
             }
         }
@@ -355,7 +355,7 @@ namespace TracksHeatmap
             colorDialog.Color = btnTrackBakground2.BackColor;
             if (colorDialog.ShowDialog() == DialogResult.OK)
             {
-                btnTrackBakground2.ForeColor = colorDialog.Color;
+                btnTrackBakground2.BackColor = colorDialog.Color;
                 numTrackWidth_ValueChanged(sender, e);
             }
         }
